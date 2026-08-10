@@ -3,116 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign In — CyrusLinksHub</title>
+<title>System Access Control | CyrusLinksHub Portal</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<!-- 🔥 WHEN READY: uncomment for Firebase Auth -->
-<!-- <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script> -->
-<!-- <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script> -->
 <style>
-.auth-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
-.auth-card{width:100%;max-width:470px;text-align:center;padding:38px 28px;}
-.auth-mode{display:inline-block;margin-top:10px;}
-.social-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;}
-.pv{color:#fff;box-shadow:none;font-size:.78rem;}
-.pv.google{background:linear-gradient(135deg,#ea4335,#fbbc05);}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.auth-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;width:100%;max-width:980px;}
+@media(max-width:860px){.auth-grid{grid-template-columns:1fr;}}
+.auth-card{padding:34px 28px;}
+.auth-brand{font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.auth-brand i{color:var(--cyan);}
+.auth-title{font-size:1.6rem;color:var(--cyan);text-shadow:0 0 12px rgba(0,240,255,.5);margin-bottom:6px;}
+.auth-sub{font-size:.92rem;margin-bottom:18px;}
+.social-col{display:grid;gap:10px;margin:14px 0;}
+.pv{width:100%;color:#fff;box-shadow:none;font-size:.78rem;background:rgba(255,255,255,.06);border:1px solid var(--border);}
 .pv.discord{background:linear-gradient(135deg,#5865F2,#7b2bff);}
-.pv.facebook{background:linear-gradient(135deg,#1877f2,#0e5aa7);}
 .pv.github{background:linear-gradient(135deg,#444,#000);border:1px solid #666;}
-.divider{display:flex;align-items:center;gap:10px;color:var(--muted);margin:16px 0;font-size:.78rem;letter-spacing:2px;text-transform:uppercase;}
+.pv.google{background:linear-gradient(135deg,#ea4335,#fbbc05);color:#111;}
+.divider{display:flex;align-items:center;gap:10px;color:var(--muted);margin:16px 0;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
 .auth-error,.auth-ok{display:none;margin:10px 0;padding:10px;border-radius:10px;font-size:.9rem;}
 .auth-error{background:rgba(255,0,80,.12);border:1px solid var(--red);color:#ff5588;}
 .auth-ok{background:rgba(0,255,157,.1);border:1px solid var(--green);color:var(--green);}
+.auth-links{display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-size:.85rem;flex-wrap:wrap;gap:8px;color:var(--muted);}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);display:inline-block;animation:pulse 1.6s infinite;}
+.side-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(0,240,255,.12);font-size:.85rem;}
+.side-item:last-child{border-bottom:none;}
+.side-item .k{color:var(--muted);}
+.side-item .v{color:var(--green);}
 .pass-wrap{position:relative;}
 .pass-wrap input{padding-right:50px;}
-.pass-eye{position:absolute;right:6px;top:10px;background:transparent;border:none;box-shadow:none;color:var(--cyan);padding:8px;width:auto;}
+.pass-eye{position:absolute;right:6px;top:8px;background:transparent;border:none;box-shadow:none;color:var(--cyan);padding:8px;width:auto;}
 .pass-eye:hover{transform:none;box-shadow:none;text-shadow:0 0 10px var(--cyan);}
-.auth-row{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;margin:4px 0 14px;color:var(--muted);}
-.auth-row a{color:var(--cyan);}
-.auth-note{font-size:.72rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:16px;}
-.back-home{display:inline-block;margin-top:12px;font-size:.85rem;}
-.auth-switch{margin-top:14px;font-size:.9rem;color:var(--muted);}
 </style>
 </head>
 <body>
 
 <div class="auth-wrap">
-    <div class="glass auth-card">
-        <a href="index.html" class="logo glitch" data-text="cyruslinkshub">cyruslinkshub</a>
-        <p class="tagline" style="margin-top:10px;">Secure Access Portal</p>
-        <span class="info-chip auth-mode" id="authMode"><i class="fa-solid fa-flask"></i> Demo Mode</span>
+    <div class="auth-grid">
 
-        <div class="auth-error" id="authError"></div>
-        <div class="auth-ok" id="authOk"></div>
+        <!-- MAIN LOGIN CARD -->
+        <div class="glass auth-card">
+            <div class="auth-brand"><i class="fa-solid fa-satellite-dish"></i> CyrusLinksHub Gateway</div>
+            <h1 class="auth-title">Portal Login</h1>
+            <p class="auth-sub">Enter your credentials to access system telemetry</p>
 
-        <div class="social-grid">
-            <button class="pv google" onclick="socialLogin('Google')"><i class="fa-brands fa-google"></i> Google</button>
-            <button class="pv discord" onclick="socialLogin('Discord')"><i class="fa-brands fa-discord"></i> Discord</button>
-            <button class="pv facebook" onclick="socialLogin('Facebook')"><i class="fa-brands fa-facebook-f"></i> Facebook</button>
-            <button class="pv github" onclick="socialLogin('GitHub')"><i class="fa-brands fa-github"></i> GitHub</button>
+            <div class="auth-error" id="authError"></div>
+            <div class="auth-ok" id="authOk"></div>
+
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="operator@hub.net" autocomplete="email">
+
+            <label>Password</label>
+            <div class="pass-wrap">
+                <input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
+                <button class="pass-eye" type="button" onclick="togglePass('pass','eye1')"><i class="fa-solid fa-eye" id="eye1"></i></button>
+            </div>
+
+            <div class="auth-links" style="margin:6px 0 14px;">
+                <span></span>
+                <a href="forgot-password.html">Forgot Password?</a>
+            </div>
+
+            <button onclick="doLogin()" style="width:100%;"><i class="fa-solid fa-fingerprint"></i> Authenticate Account</button>
+
+            <div class="divider">Or Continue With</div>
+
+            <div class="social-col">
+                <button class="pv discord" onclick="social('Discord')"><i class="fa-brands fa-discord"></i> Continue with Discord</button>
+                <button class="pv github" onclick="social('GitHub')"><i class="fa-brands fa-github"></i> Continue with GitHub</button>
+                <button class="pv google" onclick="social('Google')"><i class="fa-brands fa-google"></i> Continue with Google</button>
+            </div>
+
+            <div class="auth-links">
+                <span>New to the hub? <a href="register.html">Create account</a></span>
+                <a href="about.html"><i class="fa-solid fa-heart-pulse"></i> System Status</a>
+            </div>
         </div>
 
-        <div class="divider">or sign in with email</div>
-
-        <input type="email" id="email" placeholder="Email address" autocomplete="email">
-        <div class="pass-wrap">
-            <input type="password" id="pass" placeholder="Password" autocomplete="current-password">
-            <button class="pass-eye" onclick="togglePass('pass','eye1')" type="button"><i class="fa-solid fa-eye" id="eye1"></i></button>
+        <!-- STATUS SIDEBAR -->
+        <div class="glass auth-card">
+            <h3 style="color:var(--cyan);margin-bottom:10px;"><i class="fa-solid fa-shield-halved"></i> Gateway Security Status</h3>
+            <div class="side-item"><span class="k"><span class="status-dot"></span> Systems</span><span class="v">Operational</span></div>
+            <div class="side-item"><span class="k">Global Link Pipeline</span><span class="v">Online</span></div>
+            <div class="side-item"><span class="k">Node Connection</span><span class="v">Stable</span></div>
+            <div class="side-item"><span class="k">Encryption Layer</span><span class="v">AES-256</span></div>
+            <div class="side-item"><span class="k">Auth Protocol</span><span class="v">Firebase-Ready</span></div>
         </div>
 
-        <div class="auth-row">
-            <label style="margin:0;"><input type="checkbox" checked> Remember me</label>
-            <a href="forgot.html">Forgot password?</a>
-        </div>
-
-        <button onclick="submitLogin()" style="width:100%;"><i class="fa-solid fa-bolt"></i> Sign In</button>
-
-        <p class="auth-switch">New here? <a href="signup.html">Create an account</a></p>
-        <p class="auth-note"><i class="fa-solid fa-shield-halved"></i> Protected • Firebase-ready</p>
-        <a href="index.html" class="back-home"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
     </div>
 </div>
 
-<script src="auth-core.js"></script>
 <script>
-if (read(P_KEY, null)) location.replace('tools.html');
+/* 🔥 FIREBASE: later add firebase scripts + set true */
+var FIREBASE_ENABLED = false;
+var P_KEY = 'clh_profile', U_KEY = 'clh_users';
 
-function submitLogin() {
-    hideMsgs();
-    var email = val('email').toLowerCase(), pass = val('pass');
+function hash(s){var h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))|0;}return 'h'+h;}
+function read(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}}
+function err(m){var e=document.getElementById('authError');e.textContent=m;e.style.display='block';document.getElementById('authOk').style.display='none';}
+function ok(m){var e=document.getElementById('authOk');e.textContent=m;e.style.display='block';document.getElementById('authError').style.display='none';}
+function avatarFor(n,p){var e=encodeURIComponent(n||'player');if(p==='GitHub')return 'https://github.com/'+e+'.png?size=96';if(p==='Discord')return 'https://api.dicebear.com/9.x/bottts/svg?seed='+e;if(p==='Google')return 'https://api.dicebear.com/9.x/adventurer-neutral/svg?seed='+e;return 'https://api.dicebear.com/9.x/initials/svg?seed='+e;}
+function enter(p){localStorage.setItem(P_KEY,JSON.stringify(p));ok('Access granted! Routing to hub...');setTimeout(function(){location.href='tools.html';},800);}
+function togglePass(i,c){var p=document.getElementById(i);var s=p.type==='password';p.type=s?'text':'password';document.getElementById(c).className=s?'fa-solid fa-eye-slash':'fa-solid fa-eye';}
 
-    if (FB) {
-        if (!email || !pass) { showErr('Enter email and password.'); return; }
-        FB.auth().signInWithEmailAndPassword(email, pass).then(function (r) {
-            enterHub(profileFromFirebase(r.user, 'Email'));
-        }).catch(function (e) { showErr(friendly(e.code)); });
-        return;
-    }
-    var users = read(U_KEY, {});
-    if (!users[email]) { showErr('No account found. Create one first.'); return; }
-    if (users[email].pass !== hash(pass)) { showErr('Wrong password. Try again.'); return; }
-    enterHub({ name: users[email].name, email: email, provider: 'Email', avatar: avatarFor(users[email].name, 'Email'), ts: Date.now() });
+function doLogin(){
+    var email=document.getElementById('email').value.trim().toLowerCase();
+    var pass=document.getElementById('pass').value;
+    if(!email||!pass){err('Enter email and password.');return;}
+    var users=read(U_KEY,{});
+    if(!users[email]){err('No account found. Create one first.');return;}
+    if(users[email].pass!==hash(pass)){err('Wrong password. Try again.');return;}
+    enter({name:users[email].name,email:email,provider:'Email',avatar:avatarFor(users[email].name,'Email'),ts:Date.now()});
 }
 
-function socialLogin(p) {
-    hideMsgs();
-    if (FB) {
-        var prov = p === 'Google' ? new FB.auth.GoogleAuthProvider()
-                 : p === 'Facebook' ? new FB.auth.FacebookAuthProvider()
-                 : p === 'GitHub' ? new FB.auth.GithubAuthProvider() : null;
-        if (!prov) { showErr('Discord is not supported by Firebase — use Google, Facebook or GitHub.'); return; }
-        FB.auth().signInWithPopup(prov).then(function (r) { enterHub(profileFromFirebase(r.user, p)); })
-            .catch(function (e) { showErr(friendly(e.code)); });
-        return;
-    }
-    var name = prompt('Sign in with ' + p + ' — enter your display name:');
-    if (!name) return;
-    name = name.trim();
-    if (name.length < 3) { showErr('Name must be at least 3 characters.'); return; }
-    enterHub({ name: name, email: '', provider: p, avatar: avatarFor(name, p), ts: Date.now() });
+function social(p){
+    var name=prompt('Continue with '+p+' — enter your display name:');
+    if(!name)return;
+    name=name.trim();
+    if(name.length<3){err('Name must be at least 3 characters.');return;}
+    enter({name:name,email:'',provider:p,avatar:avatarFor(name,p),ts:Date.now()});
 }
-setModeChip();
+
+document.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+if(read(P_KEY,null))location.replace('tools.html');
 </script>
+
 </body>
-                                                                                                      </html>
+                                                                                                   </html>
