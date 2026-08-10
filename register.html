@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#05010d">
+    <meta name="description" content="Create your CyrusLinksHub account">
+
+    <title>Create Account | CyrusLinksHub</title>
+
+    <!-- Use ONLY your existing style.css -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <section class="glass" style="
+            width:100%;
+            max-width:440px;
+            margin:60px auto;
+        ">
+
+            <!-- HEADER -->
+
+            <div style="text-align:center; margin-bottom:25px;">
+
+                <h1>
+                    CREATE ACCOUNT
+                </h1>
+
+                <p>
+                    Join CyrusLinksHub and get started.
+                </p>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            <div
+                class="error-msg"
+                id="errorMsg"
+                role="alert"
+                aria-live="polite">
+            </div>
+
+
+            <!-- SUCCESS -->
+
+            <div
+                class="success-msg"
+                id="successMsg"
+                role="status"
+                aria-live="polite">
+            </div>
+
+
+            <!-- LOADING -->
+
+            <div
+                class="loading-msg"
+                id="loadingMsg"
+                role="status">
+
+                CREATING ACCOUNT...
+
+            </div>
+
+
+            <!-- REGISTER FORM -->
+
+            <form
+                id="registerForm"
+                novalidate>
+
+
+                <!-- NAME -->
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    autocomplete="name"
+                    placeholder="Enter your full name"
+                    maxlength="100"
+                    required>
+
+
+                <!-- USERNAME -->
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    autocomplete="username"
+                    placeholder="Choose a username"
+                    minlength="3"
+                    maxlength="30"
+                    pattern="[A-Za-z0-9_]+"
+                    required>
+
+
+                <!-- EMAIL -->
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    autocomplete="email"
+                    placeholder="Enter your email"
+                    maxlength="120"
+                    required>
+
+
+                <!-- PASSWORD -->
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    autocomplete="new-password"
+                    placeholder="Create a password"
+                    minlength="8"
+                    maxlength="200"
+                    required>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <label for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    autocomplete="new-password"
+                    placeholder="Confirm your password"
+                    minlength="8"
+                    maxlength="200"
+                    required>
+
+
+                <!-- TERMS -->
+
+                <label style="
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                    margin:8px 0 18px;
+                    cursor:pointer;
+                ">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        required>
+
+                    <span style="
+                        color:var(--muted);
+                        font-family:'Rajdhani',sans-serif;
+                        font-size:.9rem;
+                    ">
+                        I agree to the
+                        <a href="terms.html">
+                            Terms
+                        </a>
+                        and
+                        <a href="privacy.html">
+                            Privacy Policy
+                        </a>
+                    </span>
+
+                </label>
+
+
+                <!-- CREATE ACCOUNT -->
+
+                <button
+                    type="submit"
+                    id="registerButton"
+                    style="width:100%;">
+
+                    <span id="buttonText">
+                        CREATE ACCOUNT
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <hr>
+
+
+            <!-- LOGIN LINK -->
+
+            <p style="
+                text-align:center;
+                font-size:.9rem;
+                margin-top:15px;
+            ">
+
+                Already have an account?
+
+                <a href="login.html">
+                    Sign in
+                </a>
+
+            </p>
+
+
+            <!-- SECURITY -->
+
+            <p style="
+                text-align:center;
+                color:var(--green);
+                font-size:.72rem;
+                letter-spacing:1px;
+                text-transform:uppercase;
+                margin-top:18px;
+            ">
+
+                ● Secure registration
+
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        (() => {
+
+            "use strict";
+
+
+            /* ELEMENTS */
+
+            const form =
+                document.getElementById("registerForm");
+
+            const name =
+                document.getElementById("name");
+
+            const username =
+                document.getElementById("username");
+
+            const email =
+                document.getElementById("email");
+
+            const password =
+                document.getElementById("password");
+
+            const confirmPassword =
+                document.getElementById("confirmPassword");
+
+            const terms =
+                document.getElementById("terms");
+
+            const button =
+                document.getElementById("registerButton");
+
+            const buttonText =
+                document.getElementById("buttonText");
+
+            const errorMsg =
+                document.getElementById("errorMsg");
+
+            const successMsg =
+                document.getElementById("successMsg");
+
+            const loadingMsg =
+                document.getElementById("loadingMsg");
+
+
+            /* MESSAGE HELPERS */
+
+            function hideMessages() {
+
+                errorMsg.style.display = "none";
+
+                successMsg.style.display = "none";
+
+                loadingMsg.style.display = "none";
+
+            }
+
+
+            function showError(message) {
+
+                errorMsg.textContent = message;
+
+                errorMsg.style.display = "block";
+
+                successMsg.style.display = "none";
+
+            }
+
+
+            /* FORM */
+
+            form.addEventListener(
+                "submit",
+                async (event) => {
+
+                    event.preventDefault();
+
+                    hideMessages();
+
+
+                    /* BASIC VALIDATION */
+
+                    if (
+                        !name.value.trim() ||
+                        !username.value.trim() ||
+                        !email.value.trim() ||
+                        !password.value ||
+                        !confirmPassword.value
+                    ) {
+
+                        showError(
+                            "Please complete all required fields."
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* USERNAME */
+
+                    if (
+                        !/^[A-Za-z0-9_]+$/.test(
+                            username.value
+                        )
+                    ) {
+
+                        showError(
+                            "Username can only contain letters, numbers and underscores."
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* EMAIL */
+
+                    if (!email.checkValidity()) {
+
+                        showError(
+                            "Please enter a valid email address."
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* PASSWORD */
+
+                    if (password.value.length < 8) {
+
+                        showError(
+                            "Password must contain at least 8 characters."
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* PASSWORD MATCH */
+
+                    if (
+                        password.value !==
+                        confirmPassword.value
+                    ) {
+
+                        showError(
+                            "Passwords do not match."
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* TERMS */
+
+                    if (!terms.checked) {
+
+                        showError(
+                            "Please accept the Terms and Privacy Policy."
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* LOADING */
+
+                    button.disabled = true;
+
+                    buttonText.textContent =
+                        "CREATING...";
+
+                    loadingMsg.style.display =
+                        "block";
+
+
+                    /*
+                        CONNECT YOUR REAL
+                        REGISTRATION API HERE.
+
+                        Example:
+
+                        const response = await fetch(
+                            "/api/register",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+                                body: JSON.stringify({
+                                    name:
+                                        name.value.trim(),
+
+                                    username:
+                                        username.value.trim(),
+
+                                    email:
+                                        email.value.trim(),
+
+                                    password:
+                                        password.value
+                                })
+                            }
+                        );
+                    */
+
+
+                    await new Promise(
+                        resolve =>
+                            setTimeout(resolve, 800)
+                    );
+
+
+                    button.disabled = false;
+
+                    buttonText.textContent =
+                        "CREATE ACCOUNT";
+
+                    loadingMsg.style.display =
+                        "none";
+
+
+                    successMsg.textContent =
+                        "Demo mode: connect this form to your registration backend.";
+
+                    successMsg.style.display =
+                        "block";
+
+                }
+            );
+
+        })();
+
+    </script>
+
+</body>
+</html>
