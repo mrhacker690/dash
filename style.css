@@ -538,3 +538,38 @@ summary:hover { box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
     .landing-actions button { width: 100%; }
     .mobile-color-stop { grid-template-columns: auto 50px 1fr 40px; }
 }
+/* =====================================================
+   LOGIN / REGISTER INPUT FIX
+   Makes Email + Password inputs match the neon theme
+===================================================== */
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    background: rgba(0, 240, 255, 0.06);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+    margin: 6px 0 12px;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: var(--pink);
+    box-shadow: 0 0 16px rgba(255, 43, 214, 0.35);
+}
+
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    color: rgba(154, 167, 199, 0.6);
+}
+
+input[type="email"]:hover,
+input[type="password"]:hover {
+    border-color: rgba(0, 240, 255, 0.5);
+   }
