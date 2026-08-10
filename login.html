@@ -2,583 +2,578 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#05010d">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#05010d"
+    >
+
+    <meta
+        name="description"
+        content="Sign in to your CyrusLinksHub account"
+    >
 
     <title>Login | CyrusLinksHub</title>
 
+    <!-- YOUR EXISTING STYLE.CSS ONLY -->
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        /* =====================================================
-           CYRUSLINKSHUB — MODERN LOGIN
-        ===================================================== */
-
-        .auth-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .auth-wrapper {
-            width: 100%;
-            max-width: 410px;
-        }
-
-        .auth-card {
-            padding: 38px;
-        }
-
-        /* HEADER */
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .auth-header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-        }
-
-        .auth-header p {
-            font-size: .9rem;
-            color: var(--muted);
-        }
-
-        /* FORM */
-
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .auth-field {
-            margin-bottom: 16px;
-        }
-
-        .auth-field label {
-            display: block;
-            margin-bottom: 7px;
-            margin-top: 0;
-        }
-
-        .auth-field input {
-            width: 100%;
-            height: 48px;
-
-            padding: 0 14px;
-
-            background: rgba(0,240,255,.045);
-
-            border: 1px solid var(--border);
-            border-radius: 10px;
-
-            color: var(--text);
-
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1rem;
-
-            outline: none;
-
-            transition: .3s;
-        }
-
-        .auth-field input:focus {
-            border-color: var(--cyan);
-
-            background: rgba(0,240,255,.08);
-
-            box-shadow:
-                0 0 15px rgba(0,240,255,.22);
-        }
-
-        .auth-field input::placeholder {
-            color: rgba(154,167,199,.55);
-        }
-
-        /* PASSWORD */
-
-        .password-box {
-            position: relative;
-        }
-
-        .password-box input {
-            padding-right: 48px;
-        }
-
-        .password-toggle {
-            position: absolute;
-
-            right: 7px;
-            top: 7px;
-
-            width: 34px;
-            height: 34px;
-
-            padding: 0;
-
-            background: transparent;
-            border: none;
-
-            color: var(--muted);
-
-            box-shadow: none;
-
-            font-family: sans-serif;
-            font-size: 15px;
-        }
-
-        .password-toggle:hover {
-            color: var(--cyan);
-            background: rgba(0,240,255,.08);
-            box-shadow: none;
-            transform: none;
-        }
-
-        /* OPTIONS */
-
-        .auth-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            margin: 2px 0 22px;
-
-            font-size: .85rem;
-        }
-
-        .remember-box {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-
-            color: var(--muted);
-
-            cursor: pointer;
-        }
-
-        .remember-box input {
-            width: auto;
-            accent-color: var(--cyan);
-        }
-
-        .forgot-link {
-            color: var(--cyan);
-        }
-
-        /* LOGIN */
-
-        .auth-login {
-            width: 100%;
-            height: 50px;
-
-            font-size: .82rem;
-
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* DIVIDER */
-
-        .auth-divider {
-            display: flex;
-            align-items: center;
-
-            gap: 12px;
-
-            margin: 25px 0;
-
-            color: var(--muted);
-
-            font-size: .7rem;
-
-            letter-spacing: 1.5px;
-        }
-
-        .auth-divider::before,
-        .auth-divider::after {
-            content: "";
-
-            flex: 1;
-
-            height: 1px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    transparent,
-                    var(--border)
-                );
-        }
-
-        .auth-divider::after {
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--border),
-                    transparent
-                );
-        }
-
-        /* REGISTER */
-
-        .register-text {
-            text-align: center;
-
-            color: var(--muted);
-
-            font-size: .87rem;
-        }
-
-        .register-text a {
-            color: var(--pink);
-            font-weight: 600;
-        }
-
-        /* STATUS */
-
-        .auth-status {
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
-            gap: 7px;
-
-            margin-top: 24px;
-
-            font-size: .68rem;
-
-            letter-spacing: 1.2px;
-
-            text-transform: uppercase;
-
-            color: var(--green);
-        }
-
-        .auth-status-dot {
-            width: 6px;
-            height: 6px;
-
-            border-radius: 50%;
-
-            background: var(--green);
-
-            box-shadow:
-                0 0 9px var(--green);
-
-            animation: statusPulse 1.5s infinite;
-        }
-
-        @keyframes statusPulse {
-
-            0%,100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: .35;
-            }
-
-        }
-
-        /* ERROR */
-
-        .auth-error {
-            display: none;
-
-            margin-bottom: 15px;
-
-            padding: 11px 13px;
-
-            border-radius: 9px;
-
-            background: rgba(255,0,80,.1);
-
-            border: 1px solid var(--red);
-
-            color: #ff6b95;
-
-            font-size: .82rem;
-
-            text-align: center;
-        }
-
-        /* LOADING */
-
-        .auth-loading {
-            display: none;
-
-            text-align: center;
-
-            margin-bottom: 15px;
-
-            color: var(--cyan);
-
-            font-size: .78rem;
-
-            letter-spacing: 1px;
-        }
-
-        /* SHAKE */
-
-        .auth-card.shake {
-            animation: authShake .35s ease;
-        }
-
-        @keyframes authShake {
-
-            25% {
-                transform: translateX(-5px);
-            }
-
-            50% {
-                transform: translateX(5px);
-            }
-
-            75% {
-                transform: translateX(-3px);
-            }
-
-        }
-
-        /* MOBILE */
-
-        @media (max-width: 500px) {
-
-            .auth-page {
-                padding: 14px;
-            }
-
-            .auth-card {
-                padding: 28px 20px;
-            }
-
-            .auth-header h1 {
-                font-size: 1.5rem;
-            }
-
-        }
-    </style>
 </head>
 
 <body>
 
-    <main class="auth-page">
+    <main class="container">
 
-        <div class="auth-wrapper">
+        <section
+            class="glass"
+            style="
+                width:100%;
+                max-width:440px;
+                margin:60px auto;
+            "
+        >
 
-            <section class="glass auth-card" id="authCard">
+            <!-- HEADER -->
 
-                <!-- HEADER -->
+            <div
+                style="
+                    text-align:center;
+                    margin-bottom:28px;
+                "
+            >
 
-                <div class="auth-header">
+                <h1>
+                    SIGN IN
+                </h1>
 
-                    <h1>
-                        SIGN IN
-                    </h1>
+                <p>
+                    Sign in to your CyrusLinksHub account
+                </p>
 
-                    <p>
-                        Sign in to your CyrusLinksHub account
-                    </p>
-
-                </div>
+            </div>
 
 
-                <!-- ERROR -->
+            <!-- ERROR MESSAGE -->
+
+            <div
+                class="error-msg"
+                id="errorMsg"
+                role="alert"
+                aria-live="polite"
+            ></div>
+
+
+            <!-- LOADING MESSAGE -->
+
+            <div
+                class="loading-msg"
+                id="loadingMsg"
+                role="status"
+            >
+                AUTHENTICATING...
+            </div>
+
+
+            <!-- LOGIN FORM -->
+
+            <form
+                id="loginForm"
+                novalidate
+            >
+
+                <!-- EMAIL -->
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    autocomplete="email"
+                    placeholder="Enter your email"
+                    maxlength="120"
+                    required
+                >
+
+
+                <!-- PASSWORD -->
+
+                <label for="password">
+                    Password
+                </label>
 
                 <div
-                    class="auth-error"
-                    id="authError"
-                    role="alert">
-                </div>
+                    style="
+                        position:relative;
+                    "
+                >
 
-
-                <!-- LOADING -->
-
-                <div
-                    class="auth-loading"
-                    id="authLoading">
-
-                    AUTHENTICATING...
-
-                </div>
-
-
-                <!-- FORM -->
-
-                <form
-                    class="auth-form"
-                    id="loginForm"
-                    novalidate>
-
-
-                    <!-- EMAIL -->
-
-                    <div class="auth-field">
-
-                        <label for="email">
-                            Email Address
-                        </label>
-
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            autocomplete="email"
-                            placeholder="Enter your email"
-                            required>
-
-                    </div>
-
-
-                    <!-- PASSWORD -->
-
-                    <div class="auth-field">
-
-                        <label for="password">
-                            Password
-                        </label>
-
-                        <div class="password-box">
-
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                autocomplete="current-password"
-                                placeholder="Enter your password"
-                                required>
-
-                            <button
-                                type="button"
-                                class="password-toggle"
-                                id="passwordToggle"
-                                aria-label="Show password">
-
-                                ◉
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- OPTIONS -->
-
-                    <div class="auth-options">
-
-                        <label class="remember-box">
-
-                            <input
-                                type="checkbox"
-                                id="remember">
-
-                            <span>
-                                Remember me
-                            </span>
-
-                        </label>
-
-
-                        <a
-                            href="forgot-password.html"
-                            class="forgot-link">
-
-                            Forgot password?
-
-                        </a>
-
-                    </div>
-
-
-                    <!-- LOGIN BUTTON -->
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        autocomplete="current-password"
+                        placeholder="Enter your password"
+                        maxlength="200"
+                        required
+                        style="
+                            padding-right:50px;
+                        "
+                    >
 
                     <button
-                        type="submit"
-                        class="auth-login"
-                        id="loginButton">
-
-                        <span id="loginText">
-                            SIGN IN
-                        </span>
-
+                        type="button"
+                        id="togglePassword"
+                        aria-label="Show password"
+                        title="Show password"
+                        style="
+                            position:absolute;
+                            right:5px;
+                            top:4px;
+                            width:40px;
+                            height:40px;
+                            padding:0;
+                            background:transparent;
+                            border:0;
+                            box-shadow:none;
+                            color:var(--muted);
+                        "
+                    >
+                        ◉
                     </button>
 
-                </form>
-
-
-                <!-- DIVIDER -->
-
-                <div class="auth-divider">
-                    OR
                 </div>
 
 
-                <!-- REGISTER -->
+                <!-- OPTIONS -->
 
-                <div class="register-text">
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        gap:10px;
+                        margin:2px 0 18px;
+                        font-size:.85rem;
+                    "
+                >
 
-                    Don't have an account?
+                    <label
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:7px;
+                            margin:0;
+                            cursor:pointer;
+                        "
+                    >
 
-                    <a href="register.html">
-                        Create account
+                        <input
+                            type="checkbox"
+                            id="remember"
+                            style="
+                                width:auto;
+                                margin:0;
+                            "
+                        >
+
+                        <span
+                            style="
+                                color:var(--muted);
+                                font-family:'Rajdhani',sans-serif;
+                                text-transform:none;
+                                letter-spacing:0;
+                                font-size:.9rem;
+                            "
+                        >
+                            Remember me
+                        </span>
+
+                    </label>
+
+
+                    <a href="forgot-password.html">
+                        Forgot password?
                     </a>
 
                 </div>
 
 
-                <!-- SECURITY -->
+                <!-- LOGIN BUTTON -->
 
-                <div class="auth-status">
+                <button
+                    type="submit"
+                    id="loginButton"
+                    style="
+                        width:100%;
+                    "
+                >
 
-                    <span class="auth-status-dot"></span>
+                    <span id="loginText">
+                        ⚡ SIGN IN
+                    </span>
 
-                    Secure authentication
+                </button>
 
-                </div>
+            </form>
 
-            </section>
 
-        </div>
+            <!-- SOCIAL DIVIDER -->
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    margin:24px 0 18px;
+                    color:var(--muted);
+                    font-family:'Orbitron',sans-serif;
+                    font-size:.68rem;
+                    letter-spacing:1.5px;
+                    text-transform:uppercase;
+                "
+            >
+
+                <span
+                    style="
+                        flex:1;
+                        height:1px;
+                        background:
+                            linear-gradient(
+                                90deg,
+                                transparent,
+                                var(--border)
+                            );
+                    "
+                ></span>
+
+                <span>
+                    OR CONTINUE WITH
+                </span>
+
+                <span
+                    style="
+                        flex:1;
+                        height:1px;
+                        background:
+                            linear-gradient(
+                                90deg,
+                                var(--border),
+                                transparent
+                            );
+                    "
+                ></span>
+
+            </div>
+
+
+            <!-- SOCIAL LOGIN BUTTONS -->
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-columns:
+                        repeat(3, minmax(0, 1fr));
+                    gap:9px;
+                    margin-bottom:22px;
+                "
+            >
+
+                <!-- GOOGLE -->
+
+                <a
+                    href="/auth/google"
+                    class="social-login"
+                    aria-label="Continue with Google"
+                    style="
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        gap:6px;
+                        min-height:44px;
+                        padding:8px 5px;
+
+                        border:1px solid
+                            rgba(255,255,255,.16);
+
+                        border-radius:10px;
+
+                        background:
+                            rgba(255,255,255,.035);
+
+                        color:var(--text);
+
+                        font-family:'Rajdhani',
+                            sans-serif;
+
+                        font-weight:600;
+
+                        font-size:.82rem;
+
+                        text-decoration:none;
+
+                        transition:.3s;
+                    "
+                >
+
+                    <span
+                        style="
+                            color:#4285F4;
+                            font-family:Arial,sans-serif;
+                            font-size:1.15rem;
+                            font-weight:700;
+                        "
+                    >
+                        G
+                    </span>
+
+                    Google
+
+                </a>
+
+
+                <!-- GITHUB -->
+
+                <a
+                    href="/auth/github"
+                    class="social-login"
+                    aria-label="Continue with GitHub"
+                    style="
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        gap:6px;
+                        min-height:44px;
+                        padding:8px 5px;
+
+                        border:1px solid
+                            rgba(255,255,255,.16);
+
+                        border-radius:10px;
+
+                        background:
+                            rgba(255,255,255,.035);
+
+                        color:var(--text);
+
+                        font-family:'Rajdhani',
+                            sans-serif;
+
+                        font-weight:600;
+
+                        font-size:.82rem;
+
+                        text-decoration:none;
+
+                        transition:.3s;
+                    "
+                >
+
+                    <span
+                        style="
+                            color:#ffffff;
+                            font-size:1.05rem;
+                        "
+                    >
+                        ●
+                    </span>
+
+                    GitHub
+
+                </a>
+
+
+                <!-- DISCORD -->
+
+                <a
+                    href="/auth/discord"
+                    class="social-login"
+                    aria-label="Continue with Discord"
+                    style="
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        gap:6px;
+                        min-height:44px;
+                        padding:8px 5px;
+
+                        border:1px solid
+                            rgba(255,255,255,.16);
+
+                        border-radius:10px;
+
+                        background:
+                            rgba(255,255,255,.035);
+
+                        color:var(--text);
+
+                        font-family:'Rajdhani',
+                            sans-serif;
+
+                        font-weight:600;
+
+                        font-size:.82rem;
+
+                        text-decoration:none;
+
+                        transition:.3s;
+                    "
+                >
+
+                    <span
+                        style="
+                            color:#5865F2;
+                            font-size:1.05rem;
+                        "
+                    >
+                        ●
+                    </span>
+
+                    Discord
+
+                </a>
+
+            </div>
+
+
+            <!-- REGISTER -->
+
+            <hr>
+
+            <p
+                style="
+                    text-align:center;
+                    font-size:.9rem;
+                    margin-top:15px;
+                "
+            >
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Create account
+                </a>
+
+            </p>
+
+
+            <!-- SECURITY STATUS -->
+
+            <p
+                style="
+                    text-align:center;
+                    color:var(--green);
+                    font-size:.7rem;
+                    letter-spacing:1px;
+                    text-transform:uppercase;
+                    margin-top:18px;
+                "
+            >
+
+                <span
+                    style="
+                        display:inline-block;
+                        width:7px;
+                        height:7px;
+                        border-radius:50%;
+                        background:var(--green);
+                        box-shadow:0 0 9px var(--green);
+                        margin-right:5px;
+                    "
+                ></span>
+
+                Secure authentication
+
+            </p>
+
+        </section>
 
     </main>
 
+
+    <!-- JAVASCRIPT -->
 
     <script>
 
         (() => {
 
+            "use strict";
+
+
+            /* ELEMENTS */
+
             const form =
-                document.getElementById("loginForm");
+                document.getElementById(
+                    "loginForm"
+                );
 
             const email =
-                document.getElementById("email");
+                document.getElementById(
+                    "email"
+                );
 
             const password =
-                document.getElementById("password");
+                document.getElementById(
+                    "password"
+                );
 
             const toggle =
-                document.getElementById("passwordToggle");
+                document.getElementById(
+                    "togglePassword"
+                );
 
             const button =
-                document.getElementById("loginButton");
+                document.getElementById(
+                    "loginButton"
+                );
 
             const loginText =
-                document.getElementById("loginText");
+                document.getElementById(
+                    "loginText"
+                );
 
             const error =
-                document.getElementById("authError");
+                document.getElementById(
+                    "errorMsg"
+                );
 
             const loading =
-                document.getElementById("authLoading");
+                document.getElementById(
+                    "loadingMsg"
+                );
 
-            const card =
-                document.getElementById("authCard");
+            const remember =
+                document.getElementById(
+                    "remember"
+                );
+
+
+            /* REMEMBER EMAIL */
+
+            try {
+
+                const savedEmail =
+                    localStorage.getItem(
+                        "clh_login_email"
+                    );
+
+                if (savedEmail) {
+
+                    email.value =
+                        savedEmail;
+
+                    remember.checked =
+                        true;
+
+                }
+
+            } catch (_) {}
 
 
             /* PASSWORD VISIBILITY */
@@ -587,20 +582,23 @@
                 "click",
                 () => {
 
-                    const hidden =
-                        password.type === "password";
+                    const isPassword =
+                        password.type ===
+                        "password";
 
                     password.type =
-                        hidden
+                        isPassword
                             ? "text"
                             : "password";
 
                     toggle.textContent =
-                        hidden ? "◎" : "◉";
+                        isPassword
+                            ? "◎"
+                            : "◉";
 
                     toggle.setAttribute(
                         "aria-label",
-                        hidden
+                        isPassword
                             ? "Hide password"
                             : "Show password"
                     );
@@ -617,7 +615,9 @@
 
                     event.preventDefault();
 
-                    error.style.display = "none";
+
+                    error.style.display =
+                        "none";
 
 
                     const emailValue =
@@ -629,8 +629,10 @@
 
                     /* VALIDATION */
 
-                    if (!emailValue ||
-                        !passwordValue) {
+                    if (
+                        !emailValue ||
+                        !passwordValue
+                    ) {
 
                         error.textContent =
                             "Please enter your email and password.";
@@ -638,22 +640,14 @@
                         error.style.display =
                             "block";
 
-                        card.classList.remove(
-                            "shake"
-                        );
-
-                        void card.offsetWidth;
-
-                        card.classList.add(
-                            "shake"
-                        );
-
                         return;
 
                     }
 
 
-                    if (!email.checkValidity()) {
+                    if (
+                        !email.checkValidity()
+                    ) {
 
                         error.textContent =
                             "Please enter a valid email address.";
@@ -666,9 +660,34 @@
                     }
 
 
+                    /* REMEMBER EMAIL */
+
+                    try {
+
+                        if (
+                            remember.checked
+                        ) {
+
+                            localStorage.setItem(
+                                "clh_login_email",
+                                emailValue
+                            );
+
+                        } else {
+
+                            localStorage.removeItem(
+                                "clh_login_email"
+                            );
+
+                        }
+
+                    } catch (_) {}
+
+
                     /* LOADING */
 
-                    button.disabled = true;
+                    button.disabled =
+                        true;
 
                     loginText.textContent =
                         "SIGNING IN...";
@@ -678,39 +697,53 @@
 
 
                     /*
-                        CONNECT YOUR REAL
-                        AUTHENTICATION API HERE.
-
-                        Example:
-
-                        const response = await fetch(
-                            "/api/login",
-                            {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-                                body: JSON.stringify({
-                                    email: emailValue,
-                                    password: passwordValue
-                                })
-                            }
-                        );
-
-                    */
+                     * =================================================
+                     * REAL LOGIN API
+                     * =================================================
+                     *
+                     * Replace the demo section below with your
+                     * actual backend authentication request.
+                     *
+                     * Example:
+                     *
+                     * const response = await fetch(
+                     *     "/api/login",
+                     *     {
+                     *         method: "POST",
+                     *         headers: {
+                     *             "Content-Type":
+                     *                 "application/json"
+                     *         },
+                     *         body: JSON.stringify({
+                     *             email: emailValue,
+                     *             password: passwordValue
+                     *         })
+                     *     }
+                     * );
+                     *
+                     * const data = await response.json();
+                     *
+                     * if (response.ok) {
+                     *     window.location.href =
+                     *         "dashboard.html";
+                     * }
+                     */
 
 
                     await new Promise(
                         resolve =>
-                            setTimeout(resolve, 800)
+                            setTimeout(
+                                resolve,
+                                800
+                            )
                     );
 
 
-                    button.disabled = false;
+                    button.disabled =
+                        false;
 
                     loginText.textContent =
-                        "SIGN IN";
+                        "⚡ SIGN IN";
 
                     loading.style.display =
                         "none";
