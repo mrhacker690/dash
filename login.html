@@ -1,133 +1,733 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>System Access Control | CyrusLinksHub Portal</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<style>
-.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
-.auth-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;width:100%;max-width:980px;}
-@media(max-width:860px){.auth-grid{grid-template-columns:1fr;}}
-.auth-card{padding:34px 28px;}
-.auth-brand{font-family:'Orbitron',sans-serif;font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.auth-brand i{color:var(--cyan);}
-.auth-title{font-size:1.6rem;color:var(--cyan);text-shadow:0 0 12px rgba(0,240,255,.5);margin-bottom:6px;}
-.auth-sub{font-size:.92rem;margin-bottom:18px;}
-.social-col{display:grid;gap:10px;margin:14px 0;}
-.pv{width:100%;color:#fff;box-shadow:none;font-size:.78rem;background:rgba(255,255,255,.06);border:1px solid var(--border);}
-.pv.discord{background:linear-gradient(135deg,#5865F2,#7b2bff);}
-.pv.github{background:linear-gradient(135deg,#444,#000);border:1px solid #666;}
-.pv.google{background:linear-gradient(135deg,#ea4335,#fbbc05);color:#111;}
-.divider{display:flex;align-items:center;gap:10px;color:var(--muted);margin:16px 0;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
-.auth-error,.auth-ok{display:none;margin:10px 0;padding:10px;border-radius:10px;font-size:.9rem;}
-.auth-error{background:rgba(255,0,80,.12);border:1px solid var(--red);color:#ff5588;}
-.auth-ok{background:rgba(0,255,157,.1);border:1px solid var(--green);color:var(--green);}
-.auth-links{display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-size:.85rem;flex-wrap:wrap;gap:8px;color:var(--muted);}
-.status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);display:inline-block;animation:pulse 1.6s infinite;}
-.side-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(0,240,255,.12);font-size:.85rem;}
-.side-item:last-child{border-bottom:none;}
-.side-item .k{color:var(--muted);}
-.side-item .v{color:var(--green);}
-.pass-wrap{position:relative;}
-.pass-wrap input{padding-right:50px;}
-.pass-eye{position:absolute;right:6px;top:8px;background:transparent;border:none;box-shadow:none;color:var(--cyan);padding:8px;width:auto;}
-.pass-eye:hover{transform:none;box-shadow:none;text-shadow:0 0 10px var(--cyan);}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#05010d">
+
+    <title>Login | CyrusLinksHub</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =====================================================
+           CYRUSLINKSHUB — MODERN LOGIN
+        ===================================================== */
+
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-wrapper {
+            width: 100%;
+            max-width: 410px;
+        }
+
+        .auth-card {
+            padding: 38px;
+        }
+
+        /* HEADER */
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .auth-header p {
+            font-size: .9rem;
+            color: var(--muted);
+        }
+
+        /* FORM */
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-field {
+            margin-bottom: 16px;
+        }
+
+        .auth-field label {
+            display: block;
+            margin-bottom: 7px;
+            margin-top: 0;
+        }
+
+        .auth-field input {
+            width: 100%;
+            height: 48px;
+
+            padding: 0 14px;
+
+            background: rgba(0,240,255,.045);
+
+            border: 1px solid var(--border);
+            border-radius: 10px;
+
+            color: var(--text);
+
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+
+            outline: none;
+
+            transition: .3s;
+        }
+
+        .auth-field input:focus {
+            border-color: var(--cyan);
+
+            background: rgba(0,240,255,.08);
+
+            box-shadow:
+                0 0 15px rgba(0,240,255,.22);
+        }
+
+        .auth-field input::placeholder {
+            color: rgba(154,167,199,.55);
+        }
+
+        /* PASSWORD */
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 48px;
+        }
+
+        .password-toggle {
+            position: absolute;
+
+            right: 7px;
+            top: 7px;
+
+            width: 34px;
+            height: 34px;
+
+            padding: 0;
+
+            background: transparent;
+            border: none;
+
+            color: var(--muted);
+
+            box-shadow: none;
+
+            font-family: sans-serif;
+            font-size: 15px;
+        }
+
+        .password-toggle:hover {
+            color: var(--cyan);
+            background: rgba(0,240,255,.08);
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* OPTIONS */
+
+        .auth-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin: 2px 0 22px;
+
+            font-size: .85rem;
+        }
+
+        .remember-box {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            color: var(--muted);
+
+            cursor: pointer;
+        }
+
+        .remember-box input {
+            width: auto;
+            accent-color: var(--cyan);
+        }
+
+        .forgot-link {
+            color: var(--cyan);
+        }
+
+        /* LOGIN */
+
+        .auth-login {
+            width: 100%;
+            height: 50px;
+
+            font-size: .82rem;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* DIVIDER */
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            margin: 25px 0;
+
+            color: var(--muted);
+
+            font-size: .7rem;
+
+            letter-spacing: 1.5px;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--border)
+                );
+        }
+
+        .auth-divider::after {
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--border),
+                    transparent
+                );
+        }
+
+        /* REGISTER */
+
+        .register-text {
+            text-align: center;
+
+            color: var(--muted);
+
+            font-size: .87rem;
+        }
+
+        .register-text a {
+            color: var(--pink);
+            font-weight: 600;
+        }
+
+        /* STATUS */
+
+        .auth-status {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 7px;
+
+            margin-top: 24px;
+
+            font-size: .68rem;
+
+            letter-spacing: 1.2px;
+
+            text-transform: uppercase;
+
+            color: var(--green);
+        }
+
+        .auth-status-dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--green);
+
+            box-shadow:
+                0 0 9px var(--green);
+
+            animation: statusPulse 1.5s infinite;
+        }
+
+        @keyframes statusPulse {
+
+            0%,100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .35;
+            }
+
+        }
+
+        /* ERROR */
+
+        .auth-error {
+            display: none;
+
+            margin-bottom: 15px;
+
+            padding: 11px 13px;
+
+            border-radius: 9px;
+
+            background: rgba(255,0,80,.1);
+
+            border: 1px solid var(--red);
+
+            color: #ff6b95;
+
+            font-size: .82rem;
+
+            text-align: center;
+        }
+
+        /* LOADING */
+
+        .auth-loading {
+            display: none;
+
+            text-align: center;
+
+            margin-bottom: 15px;
+
+            color: var(--cyan);
+
+            font-size: .78rem;
+
+            letter-spacing: 1px;
+        }
+
+        /* SHAKE */
+
+        .auth-card.shake {
+            animation: authShake .35s ease;
+        }
+
+        @keyframes authShake {
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-3px);
+            }
+
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 500px) {
+
+            .auth-page {
+                padding: 14px;
+            }
+
+            .auth-card {
+                padding: 28px 20px;
+            }
+
+            .auth-header h1 {
+                font-size: 1.5rem;
+            }
+
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="auth-wrap">
-    <div class="auth-grid">
+    <main class="auth-page">
 
-        <!-- MAIN LOGIN CARD -->
-        <div class="glass auth-card">
-            <div class="auth-brand"><i class="fa-solid fa-satellite-dish"></i> CyrusLinksHub Gateway</div>
-            <h1 class="auth-title">Portal Login</h1>
-            <p class="auth-sub">Enter your credentials to access system telemetry</p>
+        <div class="auth-wrapper">
 
-            <div class="auth-error" id="authError"></div>
-            <div class="auth-ok" id="authOk"></div>
+            <section class="glass auth-card" id="authCard">
 
-            <label>Email Address</label>
-            <input type="email" id="email" placeholder="operator@hub.net" autocomplete="email">
+                <!-- HEADER -->
 
-            <label>Password</label>
-            <div class="pass-wrap">
-                <input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
-                <button class="pass-eye" type="button" onclick="togglePass('pass','eye1')"><i class="fa-solid fa-eye" id="eye1"></i></button>
-            </div>
+                <div class="auth-header">
 
-            <div class="auth-links" style="margin:6px 0 14px;">
-                <span></span>
-                <a href="forgot-password.html">Forgot Password?</a>
-            </div>
+                    <h1>
+                        SIGN IN
+                    </h1>
 
-            <button onclick="doLogin()" style="width:100%;"><i class="fa-solid fa-fingerprint"></i> Authenticate Account</button>
+                    <p>
+                        Sign in to your CyrusLinksHub account
+                    </p>
 
-            <div class="divider">Or Continue With</div>
+                </div>
 
-            <div class="social-col">
-                <button class="pv discord" onclick="social('Discord')"><i class="fa-brands fa-discord"></i> Continue with Discord</button>
-                <button class="pv github" onclick="social('GitHub')"><i class="fa-brands fa-github"></i> Continue with GitHub</button>
-                <button class="pv google" onclick="social('Google')"><i class="fa-brands fa-google"></i> Continue with Google</button>
-            </div>
 
-            <div class="auth-links">
-                <span>New to the hub? <a href="register.html">Create account</a></span>
-                <a href="about.html"><i class="fa-solid fa-heart-pulse"></i> System Status</a>
-            </div>
+                <!-- ERROR -->
+
+                <div
+                    class="auth-error"
+                    id="authError"
+                    role="alert">
+                </div>
+
+
+                <!-- LOADING -->
+
+                <div
+                    class="auth-loading"
+                    id="authLoading">
+
+                    AUTHENTICATING...
+
+                </div>
+
+
+                <!-- FORM -->
+
+                <form
+                    class="auth-form"
+                    id="loginForm"
+                    novalidate>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="auth-field">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            autocomplete="email"
+                            placeholder="Enter your email"
+                            required>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="auth-field">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="password-box">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                autocomplete="current-password"
+                                placeholder="Enter your password"
+                                required>
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="passwordToggle"
+                                aria-label="Show password">
+
+                                ◉
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OPTIONS -->
+
+                    <div class="auth-options">
+
+                        <label class="remember-box">
+
+                            <input
+                                type="checkbox"
+                                id="remember">
+
+                            <span>
+                                Remember me
+                            </span>
+
+                        </label>
+
+
+                        <a
+                            href="forgot-password.html"
+                            class="forgot-link">
+
+                            Forgot password?
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- LOGIN BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="auth-login"
+                        id="loginButton">
+
+                        <span id="loginText">
+                            SIGN IN
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                <!-- DIVIDER -->
+
+                <div class="auth-divider">
+                    OR
+                </div>
+
+
+                <!-- REGISTER -->
+
+                <div class="register-text">
+
+                    Don't have an account?
+
+                    <a href="register.html">
+                        Create account
+                    </a>
+
+                </div>
+
+
+                <!-- SECURITY -->
+
+                <div class="auth-status">
+
+                    <span class="auth-status-dot"></span>
+
+                    Secure authentication
+
+                </div>
+
+            </section>
+
         </div>
 
-        <!-- STATUS SIDEBAR -->
-        <div class="glass auth-card">
-            <h3 style="color:var(--cyan);margin-bottom:10px;"><i class="fa-solid fa-shield-halved"></i> Gateway Security Status</h3>
-            <div class="side-item"><span class="k"><span class="status-dot"></span> Systems</span><span class="v">Operational</span></div>
-            <div class="side-item"><span class="k">Global Link Pipeline</span><span class="v">Online</span></div>
-            <div class="side-item"><span class="k">Node Connection</span><span class="v">Stable</span></div>
-            <div class="side-item"><span class="k">Encryption Layer</span><span class="v">AES-256</span></div>
-            <div class="side-item"><span class="k">Auth Protocol</span><span class="v">Firebase-Ready</span></div>
-        </div>
+    </main>
 
-    </div>
-</div>
 
-<script>
-/* 🔥 FIREBASE: later add firebase scripts + set true */
-var FIREBASE_ENABLED = false;
-var P_KEY = 'clh_profile', U_KEY = 'clh_users';
+    <script>
 
-function hash(s){var h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))|0;}return 'h'+h;}
-function read(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}}
-function err(m){var e=document.getElementById('authError');e.textContent=m;e.style.display='block';document.getElementById('authOk').style.display='none';}
-function ok(m){var e=document.getElementById('authOk');e.textContent=m;e.style.display='block';document.getElementById('authError').style.display='none';}
-function avatarFor(n,p){var e=encodeURIComponent(n||'player');if(p==='GitHub')return 'https://github.com/'+e+'.png?size=96';if(p==='Discord')return 'https://api.dicebear.com/9.x/bottts/svg?seed='+e;if(p==='Google')return 'https://api.dicebear.com/9.x/adventurer-neutral/svg?seed='+e;return 'https://api.dicebear.com/9.x/initials/svg?seed='+e;}
-function enter(p){localStorage.setItem(P_KEY,JSON.stringify(p));ok('Access granted! Routing to hub...');setTimeout(function(){location.href='tools.html';},800);}
-function togglePass(i,c){var p=document.getElementById(i);var s=p.type==='password';p.type=s?'text':'password';document.getElementById(c).className=s?'fa-solid fa-eye-slash':'fa-solid fa-eye';}
+        (() => {
 
-function doLogin(){
-    var email=document.getElementById('email').value.trim().toLowerCase();
-    var pass=document.getElementById('pass').value;
-    if(!email||!pass){err('Enter email and password.');return;}
-    var users=read(U_KEY,{});
-    if(!users[email]){err('No account found. Create one first.');return;}
-    if(users[email].pass!==hash(pass)){err('Wrong password. Try again.');return;}
-    enter({name:users[email].name,email:email,provider:'Email',avatar:avatarFor(users[email].name,'Email'),ts:Date.now()});
-}
+            const form =
+                document.getElementById("loginForm");
 
-function social(p){
-    var name=prompt('Continue with '+p+' — enter your display name:');
-    if(!name)return;
-    name=name.trim();
-    if(name.length<3){err('Name must be at least 3 characters.');return;}
-    enter({name:name,email:'',provider:p,avatar:avatarFor(name,p),ts:Date.now()});
-}
+            const email =
+                document.getElementById("email");
 
-document.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
-if(read(P_KEY,null))location.replace('tools.html');
-</script>
+            const password =
+                document.getElementById("password");
+
+            const toggle =
+                document.getElementById("passwordToggle");
+
+            const button =
+                document.getElementById("loginButton");
+
+            const loginText =
+                document.getElementById("loginText");
+
+            const error =
+                document.getElementById("authError");
+
+            const loading =
+                document.getElementById("authLoading");
+
+            const card =
+                document.getElementById("authCard");
+
+
+            /* PASSWORD VISIBILITY */
+
+            toggle.addEventListener(
+                "click",
+                () => {
+
+                    const hidden =
+                        password.type === "password";
+
+                    password.type =
+                        hidden
+                            ? "text"
+                            : "password";
+
+                    toggle.textContent =
+                        hidden ? "◎" : "◉";
+
+                    toggle.setAttribute(
+                        "aria-label",
+                        hidden
+                            ? "Hide password"
+                            : "Show password"
+                    );
+
+                }
+            );
+
+
+            /* LOGIN */
+
+            form.addEventListener(
+                "submit",
+                async (event) => {
+
+                    event.preventDefault();
+
+                    error.style.display = "none";
+
+
+                    const emailValue =
+                        email.value.trim();
+
+                    const passwordValue =
+                        password.value;
+
+
+                    /* VALIDATION */
+
+                    if (!emailValue ||
+                        !passwordValue) {
+
+                        error.textContent =
+                            "Please enter your email and password.";
+
+                        error.style.display =
+                            "block";
+
+                        card.classList.remove(
+                            "shake"
+                        );
+
+                        void card.offsetWidth;
+
+                        card.classList.add(
+                            "shake"
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (!email.checkValidity()) {
+
+                        error.textContent =
+                            "Please enter a valid email address.";
+
+                        error.style.display =
+                            "block";
+
+                        return;
+
+                    }
+
+
+                    /* LOADING */
+
+                    button.disabled = true;
+
+                    loginText.textContent =
+                        "SIGNING IN...";
+
+                    loading.style.display =
+                        "block";
+
+
+                    /*
+                        CONNECT YOUR REAL
+                        AUTHENTICATION API HERE.
+
+                        Example:
+
+                        const response = await fetch(
+                            "/api/login",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+                                body: JSON.stringify({
+                                    email: emailValue,
+                                    password: passwordValue
+                                })
+                            }
+                        );
+
+                    */
+
+
+                    await new Promise(
+                        resolve =>
+                            setTimeout(resolve, 800)
+                    );
+
+
+                    button.disabled = false;
+
+                    loginText.textContent =
+                        "SIGN IN";
+
+                    loading.style.display =
+                        "none";
+
+
+                    error.textContent =
+                        "Demo mode: connect this form to your authentication backend.";
+
+                    error.style.display =
+                        "block";
+
+                }
+            );
+
+        })();
+
+    </script>
 
 </body>
-                                                                                                   </html>
+    </html>
