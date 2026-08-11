@@ -9,33 +9,34 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <style>
+/* LAYOUT ONLY — does not override glass/buttons/text */
 .auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-.auth-card{width:100%;max-width:440px;text-align:center;padding:38px 28px}
-.auth-kicker{font-family:'Orbitron',sans-serif;font-size:1.4rem;letter-spacing:2px;color:var(--cyan);text-shadow:0 0 12px rgba(0,240,255,.5);text-transform:uppercase}
-.auth-sub{font-size:.92rem;margin:8px 0 18px}
+.auth-card{width:100%;max-width:440px;text-align:center}
 .pass-wrap{position:relative}
 .pass-wrap input{padding-right:50px}
-.pass-eye{position:absolute;right:6px;top:8px;background:transparent;border:none;box-shadow:none;color:var(--cyan);padding:8px;width:auto}
+.pass-eye{position:absolute;right:6px;top:9px;background:transparent;border:none;box-shadow:none;color:var(--cyan);padding:8px;width:auto}
 .pass-eye:hover{transform:none;box-shadow:none;text-shadow:0 0 10px var(--cyan)}
-.auth-row{display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px;font-size:.85rem;color:var(--muted)}
+.auth-row{display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px;font-size:.9rem}
+.auth-row label{margin:0;display:flex;align-items:center;gap:6px}
 .divider{display:flex;align-items:center;gap:10px;color:var(--muted);margin:16px 0;font-size:.72rem;letter-spacing:2px;text-transform:uppercase}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.social-col{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
-.pv{color:#fff;box-shadow:none;font-size:.72rem;padding:12px 6px}
+.social-col{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.social-col button{flex:1 1 110px;font-size:.72rem}
 .pv.google{background:linear-gradient(135deg,#ea4335,#fbbc05);color:#111}
-.pv.github{background:linear-gradient(135deg,#444,#000);border:1px solid #666}
-.pv.discord{background:linear-gradient(135deg,#5865F2,#7b2bff)}
+.pv.github{background:linear-gradient(135deg,#444,#000);border:1px solid #666;color:#fff}
+.pv.discord{background:linear-gradient(135deg,#5865F2,#7b2bff);color:#fff}
 .auth-switch{margin-top:14px;font-size:.9rem;color:var(--muted)}
 .auth-note{font-size:.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:16px}
 .auth-note .dot{color:var(--green)}
 </style>
 </head>
 <body>
+
 <div class="auth-wrap">
 <div class="glass auth-card">
 
-<h1 class="auth-kicker">SIGN IN</h1>
-<p class="auth-sub">Sign in to your CyrusLinksHub account</p>
+<h2>SIGN IN</h2>
+<p>Sign in to your CyrusLinksHub account</p>
 
 <div class="loading-msg" id="authLoad">AUTHENTICATING...</div>
 <div class="error-msg" id="authError"></div>
@@ -51,13 +52,14 @@
 </div>
 
 <div class="auth-row">
-<label style="margin:0"><input type="checkbox" checked> Remember me</label>
+<label><input type="checkbox" checked> Remember me</label>
 <a href="forgot-password.html">Forgot password?</a>
 </div>
 
 <button style="width:100%" onclick="runAuth('doLogin')"><i class="fa-solid fa-bolt"></i> SIGN IN</button>
 
 <div class="divider">Or Continue With</div>
+
 <div class="social-col">
 <button class="pv google" onclick="runAuth('social','Google')"><i class="fa-brands fa-google"></i> GOOGLE</button>
 <button class="pv github" onclick="runAuth('social','GitHub')"><i class="fa-brands fa-github"></i> GITHUB</button>
@@ -78,4 +80,4 @@ if(typeof err==='function'){var _e=err,_o=ok;err=function(m){hideLoad();_e(m);};
 function runAuth(fn,arg){if(typeof window[fn]!=='function'){alert('auth-firebase.js not connected yet.');return;}showLoad();window[fn](arg);}
 </script>
 </body>
-                                                                               </html>
+  </html>
