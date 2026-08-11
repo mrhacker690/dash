@@ -1,22 +1,22 @@
 /* ===========================================================
-   CYRUSLINKSHUB — FIREBASE AUTH CONNECTOR
-   Powers: login.html + register.html + forgot-password.html
+   CYRUSLINKSHUB — FIREBASE AUTH CONNECTOR (AUTO-BIND)
+   Connects automatically to login / register / forgot pages.
 =========================================================== */
 
-/* 1️⃣ PASTE FIREBASE CONFIG (Firebase → ⚙️ Settings → Your apps → Web app) */
+/* 1️⃣ YOUR FIREBASE CONFIG (already pasted) */
 var firebaseConfig = {
-    apiKey: "PASTE_API_KEY",
-    authDomain: "PASTE_PROJECT.firebaseapp.com",
-    projectId: "PASTE_PROJECT",
-    storageBucket: "PASTE_PROJECT.appspot.com",
-    messagingSenderId: "PASTE_SENDER_ID",
-    appId: "PASTE_APP_ID"
+    apiKey: "AIzaSyA2n3WLi1_savBMMWWmMv2Ge19VSvQkUjI",
+    authDomain: "cyruslinkshub-2e195.firebaseapp.com",
+    projectId: "cyruslinkshub-2e195",
+    storageBucket: "cyruslinkshub-2e195.firebasestorage.app",
+    messagingSenderId: "1015015184649",
+    appId: "1:1015015184649:web:922ee0a6bcaf5d86ee5bd8",
+    measurementId: "G-LTT4WV9397"
 };
 
-/* 2️⃣ PASTE DISCORD CLIENT ID (Discord Developer Portal → OAuth2) */
+/* 2️⃣ PASTE YOUR DISCORD CLIENT ID HERE (if you want Discord login) */
 var DISCORD_CLIENT_ID = "PASTE_DISCORD_CLIENT_ID";
 
-/* ---------- init ---------- */
 var FB = null;
 try {
     if (typeof firebase !== 'undefined' && firebaseConfig.apiKey.indexOf('PASTE') !== 0) {
@@ -28,18 +28,19 @@ try {
 var P_KEY = 'clh_profile';
 
 /* ---------- helpers ---------- */
-function $(id) { return document.getElementById(id); }
 function saveProfile(p) { localStorage.setItem(P_KEY, JSON.stringify(p)); }
-function err(m) { var e = $('authError'); if (e) { e.textContent = m; e.style.display = 'block'; var o = $('authOk'); if (o) o.style.display = 'none'; } else { alert(m); } }
-function ok(m) { var e = $('authOk'); if (e) { e.textContent = m; e.style.display = 'block'; var o = $('authError'); if (o) o.style.display = 'none'; } else { alert(m); } }
-function notReady() { err('Firebase not connected yet — paste your config in auth-firebase.js'); }
-
-function togglePass(i, c) {
-    var p = $(i); if (!p) return;
-    var s = p.type === 'password';
-    p.type = s ? 'text' : 'password';
-    var ic = $(c); if (ic) ic.className = s ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+function ensureMsgs() {
+    if (document.getElementById('authError')) return;
+    var first = document.querySelector('input');
+    var host = first ? (first.closest('.glass, .auth-card, section, main') || document.body) : document.body;
+    var e = document.createElement('div'); e.id = 'authError'; e.className = 'error-msg';
+    var o = document.createElement('div'); o.id = 'authOk'; o.className = 'success-msg';
+    host.insertBefore(o, first ? first.parentElement : host.firstChild);
+    host.insertBefore(e, o);
 }
+function err(m) { ensureMsgs(); var e = document.getElementById('authError'); e.textContent = m; e.style.display = 'block'; document.getElementById('authOk').style.display = 'none'; }
+function ok(m) { ensureMsgs(); var o = document.getElementById('authOk'); o.textContent = m; o.style.display = 'block'; document.getElementById('authError').style.display = 'none'; }
+function notReady() { err('Firebase not connected yet — paste your config in auth-firebase.js'); }
 
 function avatarFor(n, p) {
     var e = encodeURIComponent(n || 'player');
@@ -49,18 +50,15 @@ function avatarFor(n, p) {
     if (p === 'Discord') return 'https://api.dicebear.com/9.x/bottts/svg?seed=' + e;
     return 'https://api.dicebear.com/9.x/initials/svg?seed=' + e;
 }
-
 function profileFrom(u, prov) {
     var name = u.displayName || (u.email ? u.email.split('@')[0] : 'Player');
     return { name: name, email: u.email || '', provider: prov, avatar: u.photoURL || avatarFor(name, prov), ts: Date.now() };
 }
-
 function enter(p) {
     saveProfile(p);
     ok('Access granted! Routing to hub...');
     setTimeout(function () { location.href = 'tools.html'; }, 900);
 }
-
 function friendly(code) {
     var m = {
         'auth/invalid-email': 'Invalid email address.',
@@ -78,93 +76,59 @@ function friendly(code) {
     return m[code] || ('Authentication failed (' + code + ').');
 }
 
-/* ---------- session sync + auto redirect ---------- */
-if (FB) {
-    FB.auth().onAuthStateChanged(function (u) {
-        if (u) {
-            saveProfile(profileFrom(u, 'Email'));
-            if (location.href.indexOf('login') > -1 || location.href.indexOf('register') > -1) {
-                location.replace('tools.html');
-            }
-        }
-    });
-}
+/* ---------- auto field detection ---------- */
+function fEmail() { return document.querySelector('input[type="email"]'); }
+function fPass() { return document.querySelectorAll('input[type="password"]'); }
+function fText() { return document.querySelectorAll('input[type="text"]'); }
+function fTerms() { return document.querySelector('input[type="checkbox"]'); }
 
-/* ================= LOGIN (login.html) ================= */
+/* ---------- ACTIONS ---------- */
 function doLogin() {
     if (!FB) { notReady(); return; }
-    var email = ($('email') ? $('email').value : '').trim().toLowerCase();
-    var pass = $('pass') ? $('pass').value : '';
-    if (!email || !pass) { err('Enter email and password.'); return; }
-    FB.auth().signInWithEmailAndPassword(email, pass)
+    var em = fEmail() ? fEmail().value.trim().toLowerCase() : '';
+    var ps = fPass(); var pw = ps[0] ? ps[0].value : '';
+    if (!em || !pw) { err('Enter email and password.'); return; }
+    FB.auth().signInWithEmailAndPassword(em, pw)
         .then(function (r) { enter(profileFrom(r.user, 'Email')); })
         .catch(function (e) { err(friendly(e.code)); });
 }
 
-/* ================= REGISTER (register.html) ================= */
-function verifyChip() {
-    var c = $('secChip'), t = $('terms');
-    if (!c || !t) return;
-    if (t.checked) {
-        c.innerHTML = '<i class="fa-solid fa-circle-check"></i> Security Status: Verified';
-        c.style.borderColor = 'var(--green)'; c.style.color = 'var(--green)';
-    } else {
-        c.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Security Status: Unverified';
-        c.style.borderColor = ''; c.style.color = '';
-    }
-}
-
 function doRegister() {
     if (!FB) { notReady(); return; }
-    var name = ($('suName') ? $('suName').value : '').trim();
-    var email = ($('email') ? $('email').value : '').trim().toLowerCase();
-    var pass = $('pass') ? $('pass').value : '';
-    var pass2 = $('pass2') ? $('pass2').value : '';
-
+    var tx = fText(), ps = fPass();
+    var name = tx[0] ? tx[0].value.trim() : '';
+    var em = fEmail() ? fEmail().value.trim().toLowerCase() : '';
+    var pw = ps[0] ? ps[0].value : '';
+    var pw2 = ps[1] ? ps[1].value : '';
     if (name.length < 3) { err('Full name must be at least 3 characters.'); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err('Enter a valid email address.'); return; }
-    if (pass.length < 6) { err('Password must be at least 6 characters.'); return; }
-    if (pass !== pass2) { err('Passwords do not match.'); return; }
-    if ($('terms') && !$('terms').checked) { err('You must accept the Terms of Service.'); return; }
-
-    FB.auth().createUserWithEmailAndPassword(email, pass)
-        .then(function (r) {
-            return r.user.updateProfile({ displayName: name }).then(function () { return r.user; });
-        })
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { err('Enter a valid email address.'); return; }
+    if (pw.length < 6) { err('Password must be at least 6 characters.'); return; }
+    if (pw !== pw2) { err('Passwords do not match.'); return; }
+    var t = fTerms();
+    if (t && !t.checked) { err('You must accept the Terms and Privacy Policy.'); return; }
+    FB.auth().createUserWithEmailAndPassword(em, pw)
+        .then(function (r) { return r.user.updateProfile({ displayName: name }).then(function () { return r.user; }); })
         .then(function (u) { enter(profileFrom(u, 'Email')); })
         .catch(function (e) { err(friendly(e.code)); });
 }
 
-/* ================= FORGOT (forgot-password.html) ================= */
-function sendToken() {
+function sendReset() {
     if (!FB) { notReady(); return; }
-    var email = ($('email') ? $('email').value : '').trim().toLowerCase();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err('Enter a valid email address.'); return; }
-    FB.auth().sendPasswordResetEmail(email)
-        .then(function () {
-            ok('Recovery email sent to ' + email + '. Open the link inside to reset your password.');
-            var s1 = $('step1'); if (s1) s1.style.display = 'none';
-            var h = $('handshake'); if (h) h.textContent = 'Reset Link Routed ✓';
-        })
+    var em = fEmail() ? fEmail().value.trim().toLowerCase() : '';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { err('Enter a valid email address.'); return; }
+    FB.auth().sendPasswordResetEmail(em)
+        .then(function () { ok('Recovery email sent to ' + em + '. Open the link inside to reset your password.'); })
         .catch(function (e) { err(friendly(e.code)); });
 }
 
-function validateToken() {
-    ok('Reset happens via the email link. Sign in with your new password.');
-    setTimeout(function () { location.href = 'login.html'; }, 1200);
-}
-
-/* ================= CONTINUE WITH (social buttons) ================= */
 function social(p) {
-    /* DISCORD — own OAuth (Firebase has no Discord) */
     if (p === 'Discord') {
-        if (DISCORD_CLIENT_ID.indexOf('PASTE') === 0) { err('Discord Client ID not pasted yet.'); return; }
+        if (DISCORD_CLIENT_ID.indexOf('PASTE') === 0) { err('Discord Client ID not pasted in auth-firebase.js yet.'); return; }
         var redirect = encodeURIComponent(location.origin + location.pathname);
         location.href = 'https://discord.com/oauth2/authorize?client_id=' + DISCORD_CLIENT_ID +
             '&response_type=token&redirect_uri=' + redirect + '&scope=identify';
         return;
     }
-    /* GOOGLE / GITHUB / FACEBOOK — Firebase popup */
     if (!FB) { notReady(); return; }
     var prov = null;
     if (p === 'Google') prov = new firebase.auth.GoogleAuthProvider();
@@ -175,7 +139,45 @@ function social(p) {
         .catch(function (e) { err(friendly(e.code)); });
 }
 
-/* DISCORD return handler (catches token when user comes back) */
+/* ---------- AUTO-BIND: reads button text, no HTML edits needed ---------- */
+var authPage = false;
+function bindAll() {
+    var btns = document.querySelectorAll('button');
+    for (var i = 0; i < btns.length; i++) {
+        (function (b) {
+            var t = ((b.textContent || '') + '').toUpperCase();
+            var hit = null;
+            if ((t.indexOf('SIGN IN') > -1 && t.indexOf('CONTINUE') === -1) || t.indexOf('AUTHENTICATE') > -1) hit = doLogin;
+            else if (t.indexOf('CREATE ACCOUNT') > -1 || t.indexOf('INITIALIZE REGISTRATION') > -1) hit = doRegister;
+            else if (t.indexOf('SEND RESET') > -1 || t.indexOf('RECOVERY TOKEN') > -1) hit = sendReset;
+            else if (t.indexOf('GOOGLE') > -1) hit = function () { social('Google'); };
+            else if (t.indexOf('GITHUB') > -1) hit = function () { social('GitHub'); };
+            else if (t.indexOf('DISCORD') > -1) hit = function () { social('Discord'); };
+            else if (t === '◉' || b.querySelector('.fa-eye, .fa-eye-slash')) hit = function () {
+                var wrap = b.parentElement;
+                var inp = wrap ? wrap.querySelector('input') : null;
+                if (!inp && b.previousElementSibling && b.previousElementSibling.tagName === 'INPUT') inp = b.previousElementSibling;
+                if (inp) inp.type = (inp.type === 'password') ? 'text' : 'password';
+            };
+            if (hit) {
+                authPage = true;
+                b.addEventListener('click', function (ev) { ev.preventDefault(); hit(); });
+            }
+        })(btns[i]);
+    }
+}
+
+/* ---------- session: already logged in? go to hub ---------- */
+if (FB) {
+    FB.auth().onAuthStateChanged(function (u) {
+        if (u) {
+            saveProfile(profileFrom(u, 'Email'));
+            if (authPage) location.replace('tools.html');
+        }
+    });
+}
+
+/* ---------- Discord return handler ---------- */
 (function () {
     var h = location.hash.replace('#', '');
     if (h.indexOf('access_token=') === -1) return;
@@ -192,10 +194,13 @@ function social(p) {
         .catch(function () { err('Discord login failed. Try again.'); });
 })();
 
-/* Enter key support */
+/* ---------- Enter key + start ---------- */
 document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Enter') return;
-    if ($('pass2')) doRegister();
-    else if ($('step1') && $('step1').style.display !== 'none') sendToken();
-    else if ($('pass')) doLogin();
+    if (e.key !== 'Enter' || !authPage) return;
+    if (fPass().length > 1) doRegister();
+    else if (fEmail() && fPass().length === 1 && document.querySelector('button')) {
+        var t = ((document.querySelector('button').textContent || '') + '').toUpperCase();
+        if (t.indexOf('RESET') > -1 || t.indexOf('RECOVERY') > -1) sendReset(); else doLogin();
+    }
 });
+document.addEventListener('DOMContentLoaded', bindAll);
