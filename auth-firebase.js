@@ -15,7 +15,7 @@ var firebaseConfig = {
 };
 
 /* 2️⃣ PASTE YOUR DISCORD CLIENT ID HERE (if you want Discord login) */
-var DISCORD_CLIENT_ID = "PASTE_DISCORD_CLIENT_ID";
+var DISCORD_CLIENT_ID = "1536842067865636874";
 
 var FB = null;
 try {
