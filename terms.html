@@ -24,101 +24,53 @@
 
     <link rel="stylesheet" href="style.css">
 
-
     <style>
-
-        /* =========================================
-           TERMS CONTENT
-        ========================================= */
 
         .terms-content {
             line-height: 1.8;
         }
 
-
-        .terms-content h2 {
+        .terms-content h2,
+        .feedback-section h2 {
             margin: 26px 0 8px;
-
             color: var(--cyan);
-
+            font-family: 'Orbitron', sans-serif;
             font-size: 1rem;
-
-            font-family:
-                Orbitron,
-                sans-serif;
         }
-
 
         .terms-content p {
             color: var(--muted);
-
             margin-bottom: 12px;
         }
-
-
-        /* =========================================
-           FEEDBACK SECTION
-        ========================================= */
 
         .feedback-section {
             margin-top: 35px;
         }
 
-
-        .feedback-section h2 {
-            color: var(--cyan);
-
-            font-family:
-                Orbitron,
-                sans-serif;
-
-            margin-bottom: 8px;
-        }
-
-
         .feedback-description {
             color: var(--muted);
-
             line-height: 1.6;
-
             margin-bottom: 22px;
         }
-
 
         .feedback-form {
             width: 100%;
         }
 
-
-        /* =========================================
-           TEXTAREA
-        ========================================= */
-
         .feedback-form textarea {
-
             width: 100%;
-
             min-height: 180px;
-
             padding: 15px;
-
             resize: vertical;
-
             box-sizing: border-box;
 
-            border:
-                1px solid
-                rgba(255,255,255,.12);
-
+            border: 1px solid rgba(255,255,255,.12);
             border-radius: 13px;
 
-            background:
-                rgba(255,255,255,.035);
-
+            background: rgba(255,255,255,.035);
             color: var(--text);
 
             font: inherit;
-
             outline: none;
 
             transition:
@@ -127,111 +79,58 @@
                 background .2s ease;
         }
 
-
         .feedback-form textarea::placeholder {
-            color:
-                rgba(155,165,189,.65);
+            color: rgba(155,165,189,.65);
         }
 
-
         .feedback-form textarea:focus {
-
-            background:
-                rgba(0,229,255,.035);
+            background: rgba(0,229,255,.035);
 
             border-color:
                 rgba(0,229,255,.55);
 
             box-shadow:
-                0 0 0 3px
-                rgba(0,229,255,.07),
-
-                0 0 18px
-                rgba(0,229,255,.10);
+                0 0 0 3px rgba(0,229,255,.07),
+                0 0 18px rgba(0,229,255,.10);
         }
 
-
-        /* =========================================
-           FEEDBACK STATUS
-        ========================================= */
+        .feedback-form .glass-auth-btn {
+            margin-top: 18px;
+        }
 
         #feedbackStatus {
-
             display: none;
-
             margin-top: 16px;
-
             padding: 13px 15px;
-
             border-radius: 11px;
-
-            background:
-                rgba(255,255,255,.035);
-
-            border:
-                1px solid
-                rgba(255,255,255,.10);
-
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.10);
             color: var(--muted);
-
             line-height: 1.5;
-
             font-size: .85rem;
         }
-
-
-        /* =========================================
-           LOCKED STATE
-        ========================================= */
 
         #feedbackLocked {
-
             display: none;
-
             margin-top: 16px;
-
             padding: 14px;
-
             border-radius: 12px;
-
-            background:
-                rgba(255,255,255,.035);
-
-            border:
-                1px solid
-                rgba(255,255,255,.10);
-
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.10);
             color: var(--muted);
-
             text-align: center;
-
             line-height: 1.6;
-
             font-size: .85rem;
         }
 
-
         #feedbackCountdown {
-
             display: block;
-
             margin-top: 5px;
-
             color: var(--cyan);
-
-            font-family:
-                Orbitron,
-                sans-serif;
-
+            font-family: 'Orbitron', sans-serif;
             font-size: .75rem;
-
             letter-spacing: 1px;
         }
-
-
-        /* =========================================
-           MOBILE
-        ========================================= */
 
         @media (max-width: 600px) {
 
@@ -239,20 +138,14 @@
                 padding: 14px;
             }
 
-
             .glass {
-
                 padding: 22px;
-
                 margin-top: 15px !important;
-
             }
-
 
             h1 {
                 font-size: 1.55rem;
             }
-
 
             .feedback-form textarea {
                 min-height: 160px;
@@ -440,17 +333,13 @@
 
 
         <!-- =====================================
-             FEEDBACK FORM
-
-             Replace YOUR_RANDOM_STRING with the
-             private FormSubmit endpoint generated
-             after email activation.
+             FORMSUBMIT FEEDBACK FORM
         ====================================== -->
 
         <form
             class="feedback-form"
             id="feedbackForm"
-            action="https://formsubmit.co/YOUR_RANDOM_STRING"
+            action="https://formsubmit.co/singhr25265@gmail.com"
             method="POST"
         >
 
@@ -491,9 +380,7 @@
 
 
 
-            <!-- =================================
-                 FORMSUBMIT SETTINGS
-            ================================== -->
+            <!-- EMAIL SUBJECT -->
 
             <input
                 type="hidden"
@@ -502,12 +389,16 @@
             >
 
 
+            <!-- EMAIL TEMPLATE -->
+
             <input
                 type="hidden"
                 name="_template"
                 value="table"
             >
 
+
+            <!-- CAPTCHA -->
 
             <input
                 type="hidden"
@@ -516,7 +407,7 @@
             >
 
 
-            <!-- Honeypot anti-spam field -->
+            <!-- HONEYPOT -->
 
             <input
                 type="text"
@@ -527,9 +418,8 @@
             >
 
 
-            <!-- =================================
-                 SUBMIT BUTTON
-            ================================== -->
+
+            <!-- SUBMIT -->
 
             <button
                 type="submit"
@@ -548,9 +438,7 @@
 
 
 
-        <!-- =====================================
-             STATUS
-        ====================================== -->
+        <!-- STATUS -->
 
         <div
             id="feedbackStatus"
@@ -559,9 +447,8 @@
         ></div>
 
 
-        <!-- =====================================
-             7 DAY LOCK
-        ====================================== -->
+
+        <!-- 7 DAY LOCK -->
 
         <div
             id="feedbackLocked"
@@ -614,18 +501,6 @@
 
 
 <script>
-
-/* =====================================================
-   CYRUSLINKSHUB FEEDBACK SYSTEM
-
-   One submission per browser every 7 days.
-
-   IMPORTANT:
-   This is a browser-side limit.
-   A real server-side 7-day restriction requires
-   a backend/database.
-===================================================== */
-
 
 (() => {
 
@@ -680,9 +555,9 @@
 
 
 
-    /* =============================================
-       CHECK LAST SUBMISSION
-    ============================================== */
+    /* =========================================
+       GET LAST SUBMISSION
+    ========================================== */
 
     function getLastSubmission() {
 
@@ -702,9 +577,9 @@
 
 
 
-    /* =============================================
+    /* =========================================
        SAVE SUBMISSION
-    ============================================== */
+    ========================================== */
 
     function saveSubmission() {
 
@@ -727,11 +602,13 @@
 
 
 
-    /* =============================================
-       FORMAT TIME
-    ============================================== */
+    /* =========================================
+       FORMAT COUNTDOWN
+    ========================================== */
 
-    function formatRemaining(milliseconds) {
+    function formatRemaining(
+        milliseconds
+    ) {
 
         let seconds =
             Math.ceil(
@@ -777,11 +654,13 @@
 
 
 
-    /* =============================================
-       LOCK FORM
-    ============================================== */
+    /* =========================================
+       LOCK FEEDBACK
+    ========================================== */
 
-    function lockFeedback(remaining) {
+    function lockFeedback(
+        remaining
+    ) {
 
         form.style.display =
             "none";
@@ -833,7 +712,9 @@
                     );
 
 
-                if (remainingTime <= 0) {
+                if (
+                    remainingTime <= 0
+                ) {
 
                     unlockFeedback();
 
@@ -854,9 +735,9 @@
 
 
 
-    /* =============================================
-       UNLOCK FORM
-    ============================================== */
+    /* =========================================
+       UNLOCK
+    ========================================== */
 
     function unlockFeedback() {
 
@@ -880,7 +761,6 @@
         } catch (error) {}
 
 
-
         form.style.display =
             "block";
 
@@ -896,9 +776,9 @@
 
 
 
-    /* =============================================
+    /* =========================================
        INITIAL CHECK
-    ============================================== */
+    ========================================== */
 
     const last =
         Number(
@@ -916,7 +796,9 @@
             );
 
 
-        if (remaining > 0) {
+        if (
+            remaining > 0
+        ) {
 
             lockFeedback(
                 remaining
@@ -932,9 +814,9 @@
 
 
 
-    /* =============================================
-       FORM SUBMISSION
-    ============================================== */
+    /* =========================================
+       SUBMIT
+    ========================================== */
 
     form.addEventListener(
         "submit",
@@ -960,7 +842,7 @@
 
 
 
-            /* EMAIL VALIDATION */
+            /* EMAIL */
 
             if (!email) {
 
@@ -972,16 +854,13 @@
                 status.style.display =
                     "block";
 
-                status.style.color =
-                    "var(--red)";
-
                 return;
 
             }
 
 
 
-            /* MESSAGE VALIDATION */
+            /* MESSAGE */
 
             if (!message) {
 
@@ -992,9 +871,6 @@
 
                 status.style.display =
                     "block";
-
-                status.style.color =
-                    "var(--red)";
 
                 return;
 
@@ -1017,18 +893,13 @@
                 status.style.display =
                     "block";
 
-                status.style.color =
-                    "var(--red)";
-
                 return;
 
             }
 
 
 
-            /* =====================================
-               PREVENT DOUBLE CLICK
-            ====================================== */
+            /* PREVENT DOUBLE CLICK */
 
             button.disabled =
                 true;
@@ -1038,26 +909,20 @@
                 "SENDING...";
 
 
-
-            /* =====================================
-               SAVE 7-DAY LIMIT
-
-               FormSubmit will now receive the
-               normal POST request.
-            ====================================== */
+            /*
+             * Save the submission time.
+             *
+             * The form is NOT prevented here,
+             * so the normal FormSubmit POST
+             * continues.
+             */
 
             saveSubmission();
 
-
-            /*
-                DO NOT preventDefault() here.
-
-                The form must continue normally to
-                FormSubmit.
-            */
-
         }
+
     );
+
 
 })();
 
