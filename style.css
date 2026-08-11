@@ -696,3 +696,35 @@ input[type="password"]:hover {
 .pv.github:hover{box-shadow:0 0 18px rgba(255,255,255,.3)}
 .pv.discord{border-color:rgba(88,101,242,.5);color:#8a94f5}
 .pv.discord:hover{box-shadow:0 0 18px rgba(88,101,242,.45)}
+/* ===========================================================
+   TRANSPARENT CONTINUE + SIGNUP BUTTONS (override fix)
+=========================================================== */
+.social-col button, .pv {
+    background: transparent !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    box-shadow: none !important;
+    backdrop-filter: blur(6px);
+}
+.pv.google  { border-color: rgba(251,188,5,.55) !important;  color: #fbbc05 !important; }
+.pv.github  { border-color: rgba(255,255,255,.4) !important; color: #fff !important; }
+.pv.discord { border-color: rgba(88,101,242,.55) !important; color: #8a94f5 !important; }
+
+.social-col button:hover, .pv:hover {
+    background: rgba(0,240,255,.08) !important;
+    border-color: var(--cyan) !important;
+    box-shadow: 0 0 18px rgba(0,240,255,.3) !important;
+    transform: translateY(-2px);
+}
+
+/* Transparent CREATE ACCOUNT (sign up) button */
+button[onclick*="doRegister"], .btn-signup {
+    background: transparent !important;
+    border: 2px solid var(--cyan) !important;
+    color: var(--cyan) !important;
+    box-shadow: 0 0 12px rgba(0,240,255,.25), inset 0 0 12px rgba(0,240,255,.1) !important;
+}
+button[onclick*="doRegister"]:hover, .btn-signup:hover {
+    background: rgba(0,240,255,.1) !important;
+    box-shadow: 0 0 25px rgba(0,240,255,.5) !important;
+   }
