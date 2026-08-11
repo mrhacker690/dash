@@ -679,3 +679,20 @@ input[type="password"]:hover {
     width: 100% !important;
     flex: 0 0 auto !important;
 }
+/* Transparent continue buttons */
+.social-col button{
+    flex:1 1 110px;
+    font-size:.72rem;
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+    box-shadow:none;
+    backdrop-filter:blur(6px);
+}
+.social-col button:hover{transform:translateY(-2px);box-shadow:0 0 18px rgba(0,240,255,.3);border-color:var(--cyan)}
+.pv.google{border-color:rgba(251,188,5,.5);color:#fbbc05}
+.pv.google:hover{box-shadow:0 0 18px rgba(251,188,5,.4)}
+.pv.github{border-color:rgba(255,255,255,.35);color:#fff}
+.pv.github:hover{box-shadow:0 0 18px rgba(255,255,255,.3)}
+.pv.discord{border-color:rgba(88,101,242,.5);color:#8a94f5}
+.pv.discord:hover{box-shadow:0 0 18px rgba(88,101,242,.45)}
