@@ -31,722 +31,752 @@
 <body>
 
 
-    <main class="container">
+<main class="container">
 
 
-        <section
-            class="glass"
+    <!-- =====================================
+         LOGIN CARD
+    ====================================== -->
+
+    <section
+        class="glass"
+        style="
+            width:100%;
+            max-width:440px;
+            margin:60px auto;
+        "
+    >
+
+
+        <!-- =================================
+             HEADER
+        ================================== -->
+
+        <header
             style="
-                width:100%;
-                max-width:440px;
-                margin:60px auto;
+                text-align:center;
+                margin-bottom:28px;
             "
         >
 
+            <h1>
+                SIGN IN
+            </h1>
 
-            <!-- =========================
-                 HEADER
-            ========================== -->
+            <p>
+                Sign in to your CyrusLinksHub account
+            </p>
+
+        </header>
+
+
+        <!-- =================================
+             ERROR MESSAGE
+        ================================== -->
+
+        <div
+            class="error-msg"
+            id="errorMsg"
+            role="alert"
+            aria-live="polite"
+        ></div>
+
+
+        <!-- =================================
+             SUCCESS MESSAGE
+        ================================== -->
+
+        <div
+            class="success-msg"
+            id="successMsg"
+            role="status"
+            aria-live="polite"
+        ></div>
+
+
+        <!-- =================================
+             LOADING MESSAGE
+        ================================== -->
+
+        <div
+            class="loading-msg"
+            id="loadingMsg"
+            role="status"
+        >
+            AUTHENTICATING...
+        </div>
+
+
+        <!-- =================================
+             LOGIN FORM
+        ================================== -->
+
+        <form
+            id="loginForm"
+            novalidate
+        >
+
+
+            <!-- EMAIL -->
+
+            <label for="email">
+                EMAIL ADDRESS
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                maxlength="120"
+                required
+            >
+
+
+            <!-- PASSWORD -->
+
+            <label for="password">
+                PASSWORD
+            </label>
 
             <div
                 style="
-                    text-align:center;
-                    margin-bottom:25px;
+                    position:relative;
+                    width:100%;
                 "
             >
 
-                <h1>
-                    SIGN IN
-                </h1>
-
-                <p>
-                    Sign in to your CyrusLinksHub account
-                </p>
-
-            </div>
-
-
-            <!-- =========================
-                 ERROR
-            ========================== -->
-
-            <div
-                class="error-msg"
-                id="errorMsg"
-                role="alert"
-                aria-live="polite"
-            ></div>
-
-
-            <!-- =========================
-                 SUCCESS
-            ========================== -->
-
-            <div
-                class="success-msg"
-                id="successMsg"
-                role="status"
-                aria-live="polite"
-            ></div>
-
-
-            <!-- =========================
-                 LOADING
-            ========================== -->
-
-            <div
-                class="loading-msg"
-                id="loadingMsg"
-                role="status"
-            >
-                AUTHENTICATING...
-            </div>
-
-
-            <!-- =========================
-                 LOGIN FORM
-            ========================== -->
-
-            <form
-                id="loginForm"
-                novalidate
-            >
-
-
-                <!-- EMAIL -->
-
-                <label for="email">
-                    Email Address
-                </label>
-
                 <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    autocomplete="email"
-                    placeholder="Enter your email"
-                    maxlength="120"
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    maxlength="200"
                     required
-                >
-
-
-                <!-- PASSWORD -->
-
-                <label for="password">
-                    Password
-                </label>
-
-                <div
-                    style="
-                        position:relative;
-                    "
-                >
-
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        autocomplete="current-password"
-                        placeholder="Enter your password"
-                        maxlength="200"
-                        required
-                        style="
-                            width:100%;
-                            padding-right:50px;
-                        "
-                    >
-
-                    <button
-                        type="button"
-                        id="togglePassword"
-                        aria-label="Show password"
-                        title="Show password"
-                        style="
-                            position:absolute;
-                            right:5px;
-                            top:4px;
-                            width:40px;
-                            height:40px;
-                            padding:0;
-                            background:transparent;
-                            border:none;
-                            box-shadow:none;
-                            color:var(--muted);
-                        "
-                    >
-                        ◉
-                    </button>
-
-                </div>
-
-
-                <!-- =========================
-                     OPTIONS
-                ========================== -->
-
-                <div
-                    style="
-                        display:flex;
-                        justify-content:space-between;
-                        align-items:center;
-                        gap:10px;
-                        margin:5px 0 18px;
-                    "
-                >
-
-
-                    <label
-                        style="
-                            display:flex;
-                            align-items:center;
-                            gap:7px;
-                            margin:0;
-                            cursor:pointer;
-                            text-transform:none;
-                            letter-spacing:0;
-                        "
-                    >
-
-                        <input
-                            type="checkbox"
-                            id="remember"
-                            style="
-                                width:auto;
-                                margin:0;
-                            "
-                        >
-
-                        <span>
-                            Remember me
-                        </span>
-
-                    </label>
-
-
-                    <a href="forgot-password.html">
-
-                        Forgot password?
-
-                    </a>
-
-
-                </div>
-
-
-                <!-- =========================
-                     LOGIN BUTTON
-                ========================== -->
-
-                <button
-                    type="submit"
-                    id="loginButton"
                     style="
                         width:100%;
+                        padding-right:55px;
                     "
                 >
 
-                    <span id="loginText">
-                        ⚡ SIGN IN
-                    </span>
 
+                <!-- PASSWORD TOGGLE -->
+
+                <button
+                    type="button"
+                    id="togglePassword"
+                    aria-label="Show password"
+                    title="Show password"
+                    style="
+                        position:absolute;
+                        right:8px;
+                        top:50%;
+                        transform:translateY(-50%);
+                        width:38px;
+                        height:38px;
+                        padding:0;
+                        margin:0;
+                        border:0;
+                        background:transparent;
+                        box-shadow:none;
+                        color:var(--muted);
+                        min-width:38px;
+                    "
+                >
+                    ◉
                 </button>
 
+            </div>
 
-            </form>
 
-
-            <!-- =========================
-                 DIVIDER
-            ========================== -->
+            <!-- =================================
+                 REMEMBER / FORGOT
+            ================================== -->
 
             <div
                 style="
                     display:flex;
+                    justify-content:space-between;
                     align-items:center;
                     gap:10px;
-                    margin:24px 0 18px;
-                    color:var(--muted);
-                    font-family:'Orbitron',sans-serif;
-                    font-size:.65rem;
-                    letter-spacing:1px;
-                    text-align:center;
+                    margin:8px 0 20px;
                 "
             >
 
-                <span
+                <label
                     style="
-                        flex:1;
-                        height:1px;
-                        background:var(--border);
+                        display:flex;
+                        align-items:center;
+                        gap:8px;
+                        margin:0;
+                        cursor:pointer;
+                        text-transform:none;
+                        letter-spacing:0;
+                        color:var(--text);
                     "
-                ></span>
-
-                <span>
-                    OR CONTINUE WITH
-                </span>
-
-                <span
-                    style="
-                        flex:1;
-                        height:1px;
-                        background:var(--border);
-                    "
-                ></span>
-
-            </div>
-
-
-            <!-- =========================
-                 SOCIAL LOGIN
-            ========================== -->
-
-            <div class="actions">
-
-
-                <!-- GOOGLE -->
-
-                <button
-                    type="button"
-                    onclick="window.location.href='/auth/google'"
-                    aria-label="Continue with Google"
                 >
 
-                    <svg
-                        width="19"
-                        height="19"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
+                    <input
+                        type="checkbox"
+                        id="remember"
+                        style="
+                            width:18px;
+                            height:18px;
+                            margin:0;
+                            cursor:pointer;
+                        "
                     >
 
-                        <path
-                            fill="#4285F4"
-                            d="M21.35 12.27c0-.78-.07-1.54-.23-2.27H12v4.3h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.69 2.91-4.18 2.91-7.42z"
-                        />
+                    <span>
+                        Remember me
+                    </span>
 
-                        <path
-                            fill="#34A853"
-                            d="M12 21.67c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.3v2.53A9.75 9.75 0 0 0 12 21.67z"
-                        />
-
-                        <path
-                            fill="#FBBC05"
-                            d="M6.54 13.75A5.86 5.86 0 0 1 6.23 12c0-.61.11-1.2.31-1.75V7.72H3.3A9.72 9.72 0 0 0 2.25 12c0 1.57.38 3.06 1.05 4.28l3.24-2.53z"
-                        />
-
-                        <path
-                            fill="#EA4335"
-                            d="M12 6.22c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.83 3.31 14.63 2.33 12 2.33a9.75 9.75 0 0 0-8.7 5.39l3.24 2.53C7.31 7.94 9.46 6.22 12 6.22z"
-                        />
-
-                    </svg>
-
-                    Google
-
-                </button>
+                </label>
 
 
-                <!-- GITHUB -->
-
-                <button
-                    type="button"
-                    onclick="window.location.href='/auth/github'"
-                    aria-label="Continue with GitHub"
-                >
-
-                    <svg
-                        width="19"
-                        height="19"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        aria-hidden="true"
-                    >
-
-                        <path
-                            d="M12 .67a11.33 11.33 0 0 0-3.58 22.08c.57.1.78-.25.78-.55v-2.17c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.74 2.68 1.24 3.34.95.1-.74.4-1.24.73-1.52-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.13 1.17a10.9 10.9 0 0 1 5.7 0c2.17-1.48 3.13-1.17 3.13-1.17.62 1.58.23 2.75.11 3.04.73.8 1.18 1.82 1.18 3.07 0 4.39-2.67 5.36-5.22 5.64.41.35.78 1.05.78 2.12v3.14c0 .3.21.65.79.54A11.33 11.33 0 0 0 12 .67z"
-                        />
-
-                    </svg>
-
-                    GitHub
-
-                </button>
-
-
-                <!-- DISCORD -->
-
-                <button
-                    type="button"
-                    onclick="window.location.href='/auth/discord'"
-                    aria-label="Continue with Discord"
-                >
-
-                    <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-
-                        <path
-                            fill="#5865F2"
-                            d="M19.54 4.3A16.1 16.1 0 0 0 15.7 3.1l-.47.96a14.9 14.9 0 0 0-6.46 0L8.3 3.1a16.1 16.1 0 0 0-3.84 1.2C2.03 7.35 1.36 10.3 1.7 13.2a15.7 15.7 0 0 0 4.72 2.4l1.14-1.56c-.63-.24-1.23-.53-1.8-.87l.44-.34a11.2 11.2 0 0 0 11.6 0l.44.34c-.57.34-1.17.63-1.8.87l1.14 1.56a15.7 15.7 0 0 0 4.72-2.4c.4-3.36-.58-6.28-2.76-8.9zM8.48 12.48c-1.1 0-2-1.02-2-2.27s.88-2.27 2-2.27c1.13 0 2.02 1.02 2 2.27 0 1.25-.88 2.27-2 2.27zm7.04 0c-1.1 0-2-1.02-2-2.27s.88-2.27 2-2.27c1.13 0 2.02 1.02 2 2.27 0 1.25-.88 2.27-2 2.27z"
-                        />
-
-                    </svg>
-
-                    Discord
-
-                </button>
-
-
-            </div>
-
-
-            <!-- =========================
-                 REGISTER
-            ========================== -->
-
-            <hr>
-
-            <p
-                style="
-                    text-align:center;
-                    margin-top:15px;
-                "
-            >
-
-                Don't have an account?
-
-                <a href="register.html">
-                    Create account
+                <a href="forgot-password.html">
+                    Forgot password?
                 </a>
 
-            </p>
+            </div>
 
 
-            <!-- =========================
-                 SECURITY
-            ========================== -->
+            <!-- =================================
+                 SIGN IN BUTTON
+            ================================== -->
 
-            <p
-                style="
-                    text-align:center;
-                    color:var(--green);
-                    font-size:.7rem;
-                    letter-spacing:1px;
-                    text-transform:uppercase;
-                    margin-top:18px;
-                "
+            <button
+                type="submit"
+                id="loginButton"
+                class="glass-auth-btn"
             >
 
-                ● Secure authentication
+                <span id="loginText">
+                    ⚡ SIGN IN
+                </span>
 
-            </p>
-
-
-        </section>
-
-
-    </main>
+            </button>
 
 
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
-
-    <script>
-
-        (() => {
-
-            "use strict";
+        </form>
 
 
-            const form =
-                document.getElementById(
-                    "loginForm"
-                );
+        <!-- =================================
+             DIVIDER
+        ================================== -->
 
-            const email =
-                document.getElementById(
-                    "email"
-                );
+        <div
+            style="
+                display:flex;
+                align-items:center;
+                gap:12px;
+                margin:25px 0 18px;
+                color:var(--muted);
+                font-family:'Orbitron',sans-serif;
+                font-size:.7rem;
+                letter-spacing:1px;
+                text-align:center;
+            "
+        >
 
-            const password =
-                document.getElementById(
-                    "password"
-                );
-
-            const togglePassword =
-                document.getElementById(
-                    "togglePassword"
-                );
-
-            const loginButton =
-                document.getElementById(
-                    "loginButton"
-                );
-
-            const loginText =
-                document.getElementById(
-                    "loginText"
-                );
-
-            const errorMsg =
-                document.getElementById(
-                    "errorMsg"
-                );
-
-            const loadingMsg =
-                document.getElementById(
-                    "loadingMsg"
-                );
-
-            const remember =
-                document.getElementById(
-                    "remember"
-                );
+            <span
+                style="
+                    flex:1;
+                    height:1px;
+                    background:var(--border);
+                "
+            ></span>
 
 
-            /* =========================
-               RESTORE REMEMBERED EMAIL
-            ========================== */
+            <span>
+                OR CONTINUE WITH
+            </span>
+
+
+            <span
+                style="
+                    flex:1;
+                    height:1px;
+                    background:var(--border);
+                "
+            ></span>
+
+        </div>
+
+
+        <!-- =================================
+             SOCIAL LOGIN BUTTONS
+        ================================== -->
+
+        <div class="social-login">
+
+
+            <!-- GOOGLE -->
+
+            <button
+                type="button"
+                class="glass-auth-btn social-btn"
+                onclick="window.location.href='/auth/google'"
+                aria-label="Continue with Google"
+            >
+
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        fill="#4285F4"
+                        d="M21.35 12.27c0-.78-.07-1.54-.23-2.27H12v4.3h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.69 2.91-4.18 2.91-7.42z"
+                    />
+
+                    <path
+                        fill="#34A853"
+                        d="M12 21.67c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.3v2.53A9.75 9.75 0 0 0 12 21.67z"
+                    />
+
+                    <path
+                        fill="#FBBC05"
+                        d="M6.54 13.75A5.86 5.86 0 0 1 6.23 12c0-.61.11-1.2.31-1.75V7.72H3.3A9.72 9.72 0 0 0 2.25 12c0 1.57.38 3.06 1.05 4.28l3.24-2.53z"
+                    />
+
+                    <path
+                        fill="#EA4335"
+                        d="M12 6.22c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.83 3.31 14.63 2.33 12 2.33a9.75 9.75 0 0 0-8.7 5.39l3.24 2.53C7.31 7.94 9.46 6.22 12 6.22z"
+                    />
+
+                </svg>
+
+                <span>
+                    GOOGLE
+                </span>
+
+            </button>
+
+
+            <!-- GITHUB -->
+
+            <button
+                type="button"
+                class="glass-auth-btn social-btn"
+                onclick="window.location.href='/auth/github'"
+                aria-label="Continue with GitHub"
+            >
+
+                <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="M12 .67a11.33 11.33 0 0 0-3.58 22.08c.57.1.78-.25.78-.55v-2.17c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.74 2.68 1.24 3.34.95.1-.74.4-1.24.73-1.52-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.13 1.17a10.9 10.9 0 0 1 5.7 0c2.17-1.48 3.13-1.17 3.13-1.17.62 1.58.23 2.75.11 3.04.73.8 1.18 1.82 1.18 3.07 0 4.39-2.67 5.36-5.22 5.64.41.35.78 1.05.78 2.12v3.14c0 .3.21.65.79.54A11.33 11.33 0 0 0 12 .67z"
+                    />
+
+                </svg>
+
+                <span>
+                    GITHUB
+                </span>
+
+            </button>
+
+
+            <!-- DISCORD -->
+
+            <button
+                type="button"
+                class="glass-auth-btn social-btn"
+                onclick="window.location.href='/auth/discord'"
+                aria-label="Continue with Discord"
+            >
+
+                <svg
+                    width="21"
+                    height="21"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        fill="#5865F2"
+                        d="M19.54 4.32A16.6 16.6 0 0 0 15.7 3.1l-.49.98a15.2 15.2 0 0 0-6.42 0L8.3 3.1a16.6 16.6 0 0 0-3.84 1.22C2.03 7.25 1.35 10.1 1.7 13.03a16.1 16.1 0 0 0 4.72 2.42l1.15-1.57c-.62-.23-1.22-.52-1.79-.85l.44-.34a11.6 11.6 0 0 0 11.56 0l.44.34c-.57.33-1.17.62-1.79.85l1.15 1.57a16.1 16.1 0 0 0 4.72-2.42c.41-3.4-.58-6.28-2.76-8.71ZM8.48 12.4c-1.1 0-2-1.01-2-2.25s.88-2.25 2-2.25 2.01 1.01 2 2.25c0 1.24-.88 2.25-2 2.25Zm7.04 0c-1.1 0-2-1.01-2-2.25s.88-2.25 2-2.25 2.01 1.01 2 2.25c0 1.24-.88 2.25-2 2.25Z"
+                    />
+
+                </svg>
+
+                <span>
+                    DISCORD
+                </span>
+
+            </button>
+
+
+        </div>
+
+
+        <!-- =================================
+             REGISTER
+        ================================== -->
+
+        <hr>
+
+
+        <p
+            style="
+                text-align:center;
+                margin-top:18px;
+            "
+        >
+
+            Don't have an account?
+
+            <a href="register.html">
+                Create account
+            </a>
+
+        </p>
+
+
+        <!-- =================================
+             SECURITY STATUS
+        ================================== -->
+
+        <p
+            style="
+                text-align:center;
+                color:var(--green);
+                font-size:.7rem;
+                letter-spacing:1px;
+                text-transform:uppercase;
+                margin-top:20px;
+            "
+        >
+
+            ● SECURE AUTHENTICATION
+
+        </p>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================
+     LOGIN JAVASCRIPT
+====================================== -->
+
+<script>
+
+(() => {
+
+    "use strict";
+
+
+    const form =
+        document.getElementById(
+            "loginForm"
+        );
+
+    const email =
+        document.getElementById(
+            "email"
+        );
+
+    const password =
+        document.getElementById(
+            "password"
+        );
+
+    const remember =
+        document.getElementById(
+            "remember"
+        );
+
+    const togglePassword =
+        document.getElementById(
+            "togglePassword"
+        );
+
+    const loginButton =
+        document.getElementById(
+            "loginButton"
+        );
+
+    const loginText =
+        document.getElementById(
+            "loginText"
+        );
+
+    const errorMsg =
+        document.getElementById(
+            "errorMsg"
+        );
+
+    const successMsg =
+        document.getElementById(
+            "successMsg"
+        );
+
+    const loadingMsg =
+        document.getElementById(
+            "loadingMsg"
+        );
+
+
+    /* =================================
+       RESTORE SAVED EMAIL
+    ================================== */
+
+    try {
+
+        const savedEmail =
+            localStorage.getItem(
+                "cyruslinks_login_email"
+            );
+
+        if (savedEmail) {
+
+            email.value =
+                savedEmail;
+
+            remember.checked =
+                true;
+
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Local storage unavailable."
+        );
+
+    }
+
+
+    /* =================================
+       PASSWORD VISIBILITY
+    ================================== */
+
+    togglePassword.addEventListener(
+        "click",
+        () => {
+
+            const isHidden =
+                password.type === "password";
+
+
+            password.type =
+                isHidden
+                    ? "text"
+                    : "password";
+
+
+            togglePassword.textContent =
+                isHidden
+                    ? "◎"
+                    : "◉";
+
+
+            togglePassword.setAttribute(
+                "aria-label",
+                isHidden
+                    ? "Hide password"
+                    : "Show password"
+            );
+
+        }
+    );
+
+
+    /* =================================
+       LOGIN FORM
+    ================================== */
+
+    form.addEventListener(
+        "submit",
+        async (event) => {
+
+            event.preventDefault();
+
+
+            errorMsg.style.display =
+                "none";
+
+            successMsg.style.display =
+                "none";
+
+            loadingMsg.style.display =
+                "none";
+
+
+            const emailValue =
+                email.value.trim();
+
+            const passwordValue =
+                password.value;
+
+
+            /* VALIDATION */
+
+            if (
+                !emailValue ||
+                !passwordValue
+            ) {
+
+                errorMsg.textContent =
+                    "Please enter your email and password.";
+
+                errorMsg.style.display =
+                    "block";
+
+                return;
+
+            }
+
+
+            if (!email.checkValidity()) {
+
+                errorMsg.textContent =
+                    "Please enter a valid email address.";
+
+                errorMsg.style.display =
+                    "block";
+
+                return;
+
+            }
+
+
+            /* REMEMBER EMAIL */
 
             try {
 
-                const savedEmail =
-                    localStorage.getItem(
-                        "cyruslinks_login_email"
+                if (remember.checked) {
+
+                    localStorage.setItem(
+                        "cyruslinks_login_email",
+                        emailValue
                     );
 
-                if (savedEmail) {
+                } else {
 
-                    email.value =
-                        savedEmail;
-
-                    remember.checked =
-                        true;
+                    localStorage.removeItem(
+                        "cyruslinks_login_email"
+                    );
 
                 }
 
             } catch (error) {
 
                 console.warn(
-                    "Local storage unavailable."
+                    "Unable to save login preference."
                 );
 
             }
 
 
-            /* =========================
-               SHOW / HIDE PASSWORD
-            ========================== */
+            /* LOADING */
 
-            togglePassword.addEventListener(
-                "click",
-                () => {
+            loginButton.disabled =
+                true;
 
-                    const hidden =
-                        password.type ===
-                        "password";
+            loginText.textContent =
+                "SIGNING IN...";
 
-                    password.type =
-                        hidden
-                            ? "text"
-                            : "password";
+            loadingMsg.style.display =
+                "block";
 
-                    togglePassword.textContent =
-                        hidden
-                            ? "◎"
-                            : "◉";
 
-                    togglePassword.setAttribute(
-                        "aria-label",
-                        hidden
-                            ? "Hide password"
-                            : "Show password"
-                    );
+            /*
+            ==========================================
+            CONNECT YOUR REAL BACKEND HERE
+            ==========================================
 
+            Example:
+
+            const response = await fetch(
+                "/api/login",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email: emailValue,
+                        password: passwordValue
+                    })
                 }
             );
 
+            const data =
+                await response.json();
 
-            /* =========================
-               LOGIN
-            ========================== */
+            if (!response.ok) {
 
-            form.addEventListener(
-                "submit",
-                async (event) => {
+                throw new Error(
+                    data.message ||
+                    "Login failed."
+                );
 
-                    event.preventDefault();
+            }
 
+            window.location.href =
+                "dashboard.html";
 
-                    errorMsg.style.display =
-                        "none";
-
-                    loadingMsg.style.display =
-                        "none";
-
-
-                    const emailValue =
-                        email.value.trim();
-
-                    const passwordValue =
-                        password.value;
+            ==========================================
+            */
 
 
-                    /* VALIDATION */
-
-                    if (
-                        !emailValue ||
-                        !passwordValue
-                    ) {
-
-                        errorMsg.textContent =
-                            "Please enter your email and password.";
-
-                        errorMsg.style.display =
-                            "block";
-
-                        return;
-
-                    }
-
-
-                    if (
-                        !email.checkValidity()
-                    ) {
-
-                        errorMsg.textContent =
-                            "Please enter a valid email address.";
-
-                        errorMsg.style.display =
-                            "block";
-
-                        return;
-
-                    }
-
-
-                    /* REMEMBER EMAIL */
-
-                    try {
-
-                        if (
-                            remember.checked
-                        ) {
-
-                            localStorage.setItem(
-                                "cyruslinks_login_email",
-                                emailValue
-                            );
-
-                        } else {
-
-                            localStorage.removeItem(
-                                "cyruslinks_login_email"
-                            );
-
-                        }
-
-                    } catch (error) {
-
-                        console.warn(
-                            "Could not save login preference."
-                        );
-
-                    }
-
-
-                    /* LOADING */
-
-                    loginButton.disabled =
-                        true;
-
-                    loginText.textContent =
-                        "SIGNING IN...";
-
-                    loadingMsg.style.display =
-                        "block";
-
-
-                    /*
-                    ==========================================
-                    REAL BACKEND LOGIN
-                    ==========================================
-
-                    Replace this demo section with your API.
-
-                    Example:
-
-                    const response = await fetch(
-                        "/api/login",
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body: JSON.stringify({
-                                email: emailValue,
-                                password: passwordValue
-                            })
-                        }
-                    );
-
-                    const data =
-                        await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(
-                            data.message ||
-                            "Login failed."
-                        );
-                    }
-
-                    window.location.href =
-                        "dashboard.html";
-
-                    ==========================================
-                    */
-
-
-                    await new Promise(
-                        resolve =>
-                            setTimeout(
-                                resolve,
-                                800
-                            )
-                    );
-
-
-                    loginButton.disabled =
-                        false;
-
-                    loginText.textContent =
-                        "⚡ SIGN IN";
-
-                    loadingMsg.style.display =
-                        "none";
-
-
-                    errorMsg.textContent =
-                        "Demo mode: connect your authentication backend.";
-
-                    errorMsg.style.display =
-                        "block";
-
-                }
+            await new Promise(
+                resolve =>
+                    setTimeout(
+                        resolve,
+                        800
+                    )
             );
 
 
-        })();
+            loginButton.disabled =
+                false;
 
-    </script>
+            loginText.textContent =
+                "SIGN IN";
+
+            loadingMsg.style.display =
+                "none";
+
+
+            errorMsg.textContent =
+                "Demo mode: connect your authentication backend.";
+
+            errorMsg.style.display =
+                "block";
+
+        }
+    );
+
+
+})();
+
+</script>
 
 
 </body>
 
-    </html>
+            </html>
