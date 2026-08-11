@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Password | CyrusLinksHub</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<style>
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.auth-card{width:100%;max-width:440px;text-align:center}
+</style>
+</head>
+<body>
+<div class="auth-wrap">
+<div class="glass auth-card">
+<h2>SECURE ACTION</h2>
+<p id="statusMsg">Checking your secure link...</p>
+<div class="error-msg" id="authError"></div>
+<div class="success-msg" id="authOk"></div>
+
+<div id="resetForm" style="display:none;">
+<label>New Password</label>
+<input type="password" id="newPass" placeholder="Min 6 characters">
+<button style="width:100%" onclick="confirmReset()"><i class="fa-solid fa-key"></i> SAVE NEW PASSWORD</button>
+</div>
+
+<p style="margin-top:14px;"><a href="login.html"><i class="fa-solid fa-arrow-left"></i> Back to Sign In</a></p>
+</div>
+</div>
+
+<script>
+var firebaseConfig = {
+    apiKey: "AIzaSyA2n3WLi1_savBMMWWmMv2Ge19VSvQkUjI",
+    authDomain: "cyruslinkshub-2e195.firebaseapp.com",
+    projectId: "cyruslinkshub-2e195",
+    storageBucket: "cyruslinkshub-2e195.firebasestorage.app",
+    messagingSenderId: "1015015184649",
+    appId: "1:1015015184649:web:922ee0a6bcaf5d86ee5bd8"
+};
+firebase.initializeApp(firebaseConfig);
+var AUTH = firebase.auth();
+
+function err(m){var e=document.getElementById('authError');e.textContent=m;e.style.display='block';document.getElementById('authOk').style.display='none';}
+function ok(m){var o=document.getElementById('authOk');o.textContent=m;o.style.display='block';document.getElementById('authError').style.display='none';}
+
+var params = new URLSearchParams(location.search);
+var mode = params.get('mode');
+var code = params.get('oobCode');
+
+if (!mode || !code) {
+    err('Invalid or expired link. Request a new email.');
+} else if (mode === 'resetPassword') {
+    AUTH.verifyPasswordResetCode(code).then(function (email) {
+        document.getElementById('statusMsg').textContent = 'Resetting password for: ' + email;
+        document.getElementById('resetForm').style.display = 'block';
+    }).catch(function () { err('Invalid or expired code. Request a new reset email.'); });
+} else if (mode === 'verifyEmail') {
+    AUTH.applyActionCode(code).then(function () { ok('Email verified! You can now sign in.'); })
+        .catch(function (e) { err('Verification failed: ' + e.message); });
+} else if (mode === 'recoverEmail') {
+    AUTH.applyActionCode(code).then(function () { ok('Account restored.'); })
+        .catch(function (e) { err('Recovery failed: ' + e.message); });
+}
+
+function confirmReset() {
+    var np = document.getElementById('newPass').value;
+    if (np.length < 6) { err('Password must be at least 6 characters.'); return; }
+    AUTH.confirmPasswordReset(code, np).then(function () {
+        ok('Password changed! Redirecting to login...');
+        setTimeout(function () { location.href = 'login.html'; }, 1500);
+    }).catch(function (e) { err('Failed: ' + e.message); });
+}
+</script>
+</body>
+</html>
