@@ -32,15 +32,14 @@
 </div>
 
 <script>
-var firebaseConfig = {
+firebase.initializeApp({
     apiKey: "AIzaSyA2n3WLi1_savBMMWWmMv2Ge19VSvQkUjI",
     authDomain: "cyruslinkshub-2e195.firebaseapp.com",
     projectId: "cyruslinkshub-2e195",
     storageBucket: "cyruslinkshub-2e195.firebasestorage.app",
     messagingSenderId: "1015015184649",
     appId: "1:1015015184649:web:922ee0a6bcaf5d86ee5bd8"
-};
-firebase.initializeApp(firebaseConfig);
+});
 var AUTH = firebase.auth();
 
 function err(m){var e=document.getElementById('authError');e.textContent=m;e.style.display='block';document.getElementById('authOk').style.display='none';}
