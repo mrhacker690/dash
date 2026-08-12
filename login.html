@@ -6,7 +6,7 @@
 <title>Login | CyrusLinksHub</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<!-- Firebase SDK (for EMAIL + GITHUB only) -->
+<!-- Firebase SDK (EMAIL + GITHUB) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <style>
@@ -44,12 +44,12 @@
 <div class="success-msg" id="authOk"></div>
 
 <label>Email Address</label>
-<input type="email" id="email" placeholder="operator@hub.net" autocomplete="email">
+<input type="email" id="email" placeholder="Enter your email" autocomplete="email">
 
 <label>Password</label>
 <div class="pass-wrap">
-<input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
-<button class="pass-eye" type="button" onclick="togglePass()"><i class="fa-solid fa-eye" id="eye1"></i></button>
+<input type="password" id="pass" placeholder="Enter your password" autocomplete="current-password">
+<button class="pass-eye" type="button" onclick="togglePass()"><i class="fa-solid fa-eye" id="eye1"></i>◉</button>
 </div>
 
 <div class="auth-row">
@@ -74,7 +74,13 @@
 </div>
 
 <script>
-/* ============ 1️⃣ FIREBASE (EMAIL + GITHUB) — already your config ============ */
+/* ===========================================================
+   🔑 PASTE YOUR 2 IDS BELOW (no spaces inside quotes!)
+=========================================================== */
+var GOOGLE_CLIENT_ID = "766581835119-1f25q81kop3fn41ujk7dv0peb8jtlrpl.apps.googleusercontent.com";
+var DISCORD_CLIENT_ID = "PASTE_DISCORD_CLIENT_ID";   /* copy from Discord Developer Portal */
+
+/* Firebase (EMAIL + GITHUB) — your config, already filled */
 firebase.initializeApp({
     apiKey: "AIzaSyA2n3WLi1_savBMMWWmMv2Ge19VSvQkUjI",
     authDomain: "cyruslinkshub-2e195.firebaseapp.com",
@@ -84,10 +90,6 @@ firebase.initializeApp({
     appId: "1:1015015184649:web:922ee0a6bcaf5d86ee5bd8"
 });
 var AUTH = firebase.auth();
-
-/* ============ 2️⃣ PASTE THESE TWO IDS ============ */
-var GOOGLE_CLIENT_ID = "766581835119-1f25q81kop3fn41ujk7dv0peb8jtlrpl.apps.googleusercontent.com";      /* from Google Cloud Console */
-var DISCORD_CLIENT_ID = "1015015184649";    /* copy from your auth-firebase.js */
 
 var DASHBOARD_URL = 'https://dash.cyruslinkshub.com';
 var P_KEY = 'clh_profile';
@@ -137,9 +139,9 @@ function githubLogin(){
         .catch(function(e){err(friendly(e.code));});
 }
 
-/* ---------- GOOGLE (direct OAuth, like Discord) ---------- */
+/* ---------- GOOGLE (direct OAuth) ---------- */
 function googleLogin(){
-    if(GOOGLE_CLIENT_ID.indexOf('766581835119-1f25q81kop3fn41ujk7dv0peb8jtlrpl.apps.googleusercontent.com')===0){err('Paste your Google Client ID in login.html first.');return;}
+    if(GOOGLE_CLIENT_ID.indexOf('PASTE')===0){err('Paste your Google Client ID first.');return;}
     var redirect=encodeURIComponent(location.origin+location.pathname);
     location.href='https://accounts.google.com/o/oauth2/v2/auth?client_id='+GOOGLE_CLIENT_ID+
         '&redirect_uri='+redirect+'&response_type=token&scope=openid%20profile%20email&state=clh_google';
@@ -147,7 +149,7 @@ function googleLogin(){
 
 /* ---------- DISCORD (direct OAuth) ---------- */
 function discordLogin(){
-    if(DISCORD_CLIENT_ID.indexOf('1015015184649')===0){err('Paste your Discord Client ID in login.html first.');return;}
+    if(DISCORD_CLIENT_ID.indexOf('PASTE')===0){err('Paste your Discord Client ID first.');return;}
     var redirect=encodeURIComponent(location.origin+location.pathname);
     location.href='https://discord.com/oauth2/authorize?client_id='+DISCORD_CLIENT_ID+
         '&response_type=token&redirect_uri='+redirect+'&scope=identify&state=clh_discord';
@@ -178,15 +180,14 @@ function discordLogin(){
 })();
 
 /* ---------- already logged in? go to dashboard ---------- */
-try{
-    if(JSON.parse(localStorage.getItem(P_KEY)))location.replace(DASHBOARD_URL);
-}catch(e){}
+try{ if(JSON.parse(localStorage.getItem(P_KEY)))location.replace(DASHBOARD_URL); }catch(e){}
 AUTH.onAuthStateChanged(function(u){
     if(u)enter(profileFrom(u,u.providerData&&u.providerData[0]?u.providerData[0].providerId:'Email'));
 });
 
-/* Enter key */
+/* Enter key + debug log */
 document.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+console.log('Google Client ID loaded:', GOOGLE_CLIENT_ID);
 </script>
 </body>
     </html>
