@@ -209,3 +209,19 @@ document.addEventListener('keydown', function (e) {
     }
 });
 document.addEventListener('DOMContentLoaded', bindAll);
+/* ENTER → save to localStorage + shared cookie, then redirect */
+function enter(p) {
+    saveProfile(p);
+
+    /* Write to shared cookie so avatar shows on dash.cyruslinkshub.com too */
+    try {
+        var cookieVal = encodeURIComponent(JSON.stringify(p));
+        /* Set for .cyruslinkshub.com root domain → works on www + dash subdomains */
+        document.cookie = 'clh_cookie=' + cookieVal + ';path=/;domain=.cyruslinkshub.com;max-age=' + (60 * 60 * 24 * 365);
+        /* Also set without domain (for localhost / vercel previews) */
+        document.cookie = 'clh_cookie=' + cookieVal + ';path=/;max-age=' + (60 * 60 * 24 * 365);
+    } catch (e) {}
+
+    ok('Access granted! Routing to dashboard...');
+    setTimeout(function () { location.href = DASHBOARD_URL; }, 900);
+    }
