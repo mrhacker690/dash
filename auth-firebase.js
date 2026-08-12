@@ -1,9 +1,8 @@
 /* ===========================================================
-   CYRUSLINKSHUB — FIREBASE AUTH CONNECTOR (AUTO-BIND)
-   Connects automatically to login / register / forgot pages.
+   CYRUSLINKSHUB — FIREBASE AUTH (2-DOMAIN SETUP)
+   www.cyruslinkshub.com (landing) → dash.cyruslinkshub.com (dashboard)
 =========================================================== */
 
-/* 1️⃣ YOUR FIREBASE CONFIG (already pasted) */
 var firebaseConfig = {
     apiKey: "AIzaSyA2n3WLi1_savBMMWWmMv2Ge19VSvQkUjI",
     authDomain: "cyruslinkshub-2e195.firebaseapp.com",
@@ -13,8 +12,6 @@ var firebaseConfig = {
     appId: "1:1015015184649:web:922ee0a6bcaf5d86ee5bd8",
     measurementId: "G-LTT4WV9397"
 };
-
-/* 2️⃣ PASTE YOUR DISCORD CLIENT ID HERE (if you want Discord login) */
 var DISCORD_CLIENT_ID = "1536842067865636874";
 
 var FB = null;
@@ -26,9 +23,12 @@ try {
 } catch (e) {}
 
 var P_KEY = 'clh_profile';
+var DASHBOARD_URL = 'https://dash.cyruslinkshub.com';
+var LANDING_URL = 'https://www.cyruslinkshub.com';
 
-/* ---------- helpers ---------- */
 function saveProfile(p) { localStorage.setItem(P_KEY, JSON.stringify(p)); }
+function getProfile() { try { return JSON.parse(localStorage.getItem(P_KEY)); } catch (e) { return null; } }
+
 function ensureMsgs() {
     if (document.getElementById('authError')) return;
     var first = document.querySelector('input');
@@ -54,11 +54,21 @@ function profileFrom(u, prov) {
     var name = u.displayName || (u.email ? u.email.split('@')[0] : 'Player');
     return { name: name, email: u.email || '', provider: prov, avatar: u.photoURL || avatarFor(name, prov), ts: Date.now() };
 }
+
+/* ENTER → redirect to DASHBOARD */
 function enter(p) {
     saveProfile(p);
-    ok('Access granted! Routing to hub...');
-    setTimeout(function () { location.href = 'tools.html'; }, 900);
+    ok('Access granted! Routing to dashboard...');
+    setTimeout(function () { location.href = DASHBOARD_URL; }, 900);
 }
+
+/* LOGOUT → back to LANDING */
+function logout() {
+    localStorage.removeItem(P_KEY);
+    if (FB) FB.auth().signOut();
+    location.href = LANDING_URL;
+}
+
 function friendly(code) {
     var m = {
         'auth/invalid-email': 'Invalid email address.',
@@ -76,13 +86,11 @@ function friendly(code) {
     return m[code] || ('Authentication failed (' + code + ').');
 }
 
-/* ---------- auto field detection ---------- */
 function fEmail() { return document.querySelector('input[type="email"]'); }
 function fPass() { return document.querySelectorAll('input[type="password"]'); }
 function fText() { return document.querySelectorAll('input[type="text"]'); }
 function fTerms() { return document.querySelector('input[type="checkbox"]'); }
 
-/* ---------- ACTIONS ---------- */
 function doLogin() {
     if (!FB) { notReady(); return; }
     var em = fEmail() ? fEmail().value.trim().toLowerCase() : '';
@@ -139,7 +147,6 @@ function social(p) {
         .catch(function (e) { err(friendly(e.code)); });
 }
 
-/* ---------- AUTO-BIND: reads button text, no HTML edits needed ---------- */
 var authPage = false;
 function bindAll() {
     var btns = document.querySelectorAll('button');
@@ -150,6 +157,7 @@ function bindAll() {
             if ((t.indexOf('SIGN IN') > -1 && t.indexOf('CONTINUE') === -1) || t.indexOf('AUTHENTICATE') > -1) hit = doLogin;
             else if (t.indexOf('CREATE ACCOUNT') > -1 || t.indexOf('INITIALIZE REGISTRATION') > -1) hit = doRegister;
             else if (t.indexOf('SEND RESET') > -1 || t.indexOf('RECOVERY TOKEN') > -1) hit = sendReset;
+            else if (t.indexOf('LOGOUT') > -1 || t.indexOf('SIGN OUT') > -1) hit = logout;
             else if (t.indexOf('GOOGLE') > -1) hit = function () { social('Google'); };
             else if (t.indexOf('GITHUB') > -1) hit = function () { social('GitHub'); };
             else if (t.indexOf('DISCORD') > -1) hit = function () { social('Discord'); };
@@ -167,17 +175,15 @@ function bindAll() {
     }
 }
 
-/* ---------- session: already logged in? go to hub ---------- */
 if (FB) {
     FB.auth().onAuthStateChanged(function (u) {
         if (u) {
             saveProfile(profileFrom(u, 'Email'));
-            if (authPage) location.replace('tools.html');
+            if (authPage) location.replace(DASHBOARD_URL);
         }
     });
 }
 
-/* ---------- Discord return handler ---------- */
 (function () {
     var h = location.hash.replace('#', '');
     if (h.indexOf('access_token=') === -1) return;
@@ -194,7 +200,6 @@ if (FB) {
         .catch(function () { err('Discord login failed. Try again.'); });
 })();
 
-/* ---------- Enter key + start ---------- */
 document.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' || !authPage) return;
     if (fPass().length > 1) doRegister();
