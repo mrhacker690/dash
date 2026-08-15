@@ -6,7 +6,6 @@
 <title>Login | CyrusLinksHub</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<!-- Firebase SDK (EMAIL + GITHUB) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <style>
@@ -32,24 +31,20 @@
 </style>
 </head>
 <body>
-
 <div class="auth-wrap">
 <div class="glass auth-card">
-
 <h2>SIGN IN</h2>
 <p>Sign in to your CyrusLinksHub account</p>
-
 <div class="loading-msg" id="authLoad">AUTHENTICATING...</div>
 <div class="error-msg" id="authError"></div>
 <div class="success-msg" id="authOk"></div>
 
 <label>Email Address</label>
 <input type="email" id="email" placeholder="Enter your email" autocomplete="email">
-
 <label>Password</label>
 <div class="pass-wrap">
 <input type="password" id="pass" placeholder="Enter your password" autocomplete="current-password">
-<button class="pass-eye" type="button" onclick="togglePass()"><i class="fa-solid fa-eye" id="eye1"></i>◉</button>
+<button class="pass-eye" type="button" onclick="togglePass()"><i class="fa-solid fa-eye" id="eye1"></i></button>
 </div>
 
 <div class="auth-row">
@@ -58,9 +53,7 @@
 </div>
 
 <button style="width:100%" onclick="doLogin()"><i class="fa-solid fa-bolt"></i> SIGN IN</button>
-
 <div class="divider">Or Continue With</div>
-
 <div class="social-col">
 <button class="pv google" onclick="googleLogin()"><i class="fa-brands fa-google"></i> GOOGLE</button>
 <button class="pv github" onclick="githubLogin()"><i class="fa-brands fa-github"></i> GITHUB</button>
@@ -69,18 +62,10 @@
 
 <p class="auth-switch">Don't have an account? <a href="register.html">Create account</a></p>
 <p class="auth-note"><span class="dot">●</span> SECURE AUTHENTICATION</p>
-
 </div>
 </div>
 
 <script>
-/* ===========================================================
-   🔑 PASTE YOUR 2 IDS BELOW (no spaces inside quotes!)
-=========================================================== */
-var GOOGLE_CLIENT_ID = "766581835119-1f25q81kop3fn41ujk7dv0peb8jtlrpl.apps.googleusercontent.com";
-var DISCORD_CLIENT_ID = "1536842067865636874";   /* copy from Discord Developer Portal */
-
-/* Firebase (EMAIL + GITHUB) — your config, already filled */
 firebase.initializeApp({
     apiKey: "AIzaSyA2n3WLi1_savBMMWWmMv2Ge19VSvQkUjI",
     authDomain: "cyruslinkshub-2e195.firebaseapp.com",
@@ -90,37 +75,33 @@ firebase.initializeApp({
     appId: "1:1015015184649:web:922ee0a6bcaf5d86ee5bd8"
 });
 var AUTH = firebase.auth();
+var GOOGLE_CLIENT_ID = "766581835119-1f25q81kop3fn41ujk7dv0peb8jtlrpl.apps.googleusercontent.com";
+var DISCORD_CLIENT_ID = "153684206786";
+var DASH = 'https://dash.cyruslinkshub.com';
 
-var DASHBOARD_URL = 'https://dash.cyruslinkshub.com';
-var P_KEY = 'clh_profile';
-
-/* ---------- helpers ---------- */
 function err(m){var e=document.getElementById('authError');e.textContent=m;e.style.display='block';document.getElementById('authOk').style.display='none';document.getElementById('authLoad').style.display='none';}
 function ok(m){var o=document.getElementById('authOk');o.textContent=m;o.style.display='block';document.getElementById('authError').style.display='none';}
-function saveProfile(p){
-    localStorage.setItem(P_KEY, JSON.stringify(p));
-    try{
-        var v=encodeURIComponent(JSON.stringify(p));
-        document.cookie='clh_cookie='+v+';path=/;domain=.cyruslinkshub.com;max-age=31536000';
-        document.cookie='clh_cookie='+v+';path=/;max-age=31536000';
-    }catch(e){}
+function setCookie(p){
+    var v=encodeURIComponent(JSON.stringify(p));
+    document.cookie='clh_cookie='+v+';path=/;domain=.cyruslinkshub.com;max-age=31536000';
+    document.cookie='clh_cookie='+v+';path=/;max-age=31536000';
 }
+/* redirect carries profile in URL = dash ALWAYS receives it */
 function enter(p){
-    saveProfile(p);
+    setCookie(p);
     ok('Access granted! Routing to dashboard...');
-    setTimeout(function(){ location.href=DASHBOARD_URL; },900);
+    setTimeout(function(){ location.href = DASH + '/?clh=' + encodeURIComponent(JSON.stringify(p)); }, 900);
 }
 function profileFrom(u,prov){
     var n=u.displayName||(u.email?u.email.split('@')[0]:'Player');
     return {name:n,email:u.email||'',provider:prov,avatar:u.photoURL||('https://api.dicebear.com/9.x/initials/svg?seed='+encodeURIComponent(n)),ts:Date.now()};
 }
 function friendly(c){
-    var m={'auth/invalid-email':'Invalid email.','auth/user-not-found':'No account found.','auth/wrong-password':'Wrong password.','auth/email-already-in-use':'Email already registered.','auth/weak-password':'Password too weak.','auth/too-many-requests':'Too many attempts. Wait.','auth/popup-closed-by-user':'Popup closed.','auth/popup-blocked':'Popup blocked.','auth/unauthorized-domain':'Domain not authorized in Firebase.','auth/operation-not-allowed':'Provider disabled in Firebase.','auth/network-request-failed':'Network error.'};
+    var m={'auth/invalid-email':'Invalid email.','auth/user-not-found':'No account found.','auth/wrong-password':'Wrong password.','auth/email-already-in-use':'Email already registered.','auth/weak-password':'Password too weak.','auth/too-many-requests':'Too many attempts.','auth/popup-closed-by-user':'Popup closed.','auth/popup-blocked':'Popup blocked.','auth/unauthorized-domain':'Domain not authorized.','auth/operation-not-allowed':'Provider disabled.','auth/network-request-failed':'Network error.'};
     return m[c]||('Auth failed ('+c+').');
 }
 function togglePass(){var p=document.getElementById('pass');var s=p.type==='password';p.type=s?'text':'password';document.getElementById('eye1').className=s?'fa-solid fa-eye-slash':'fa-solid fa-eye';}
 
-/* ---------- EMAIL (Firebase) ---------- */
 function doLogin(){
     document.getElementById('authLoad').style.display='block';
     var em=document.getElementById('email').value.trim().toLowerCase();
@@ -130,44 +111,35 @@ function doLogin(){
         .then(function(r){enter(profileFrom(r.user,'Email'));})
         .catch(function(e){err(friendly(e.code));});
 }
-
-/* ---------- GITHUB (Firebase popup) ---------- */
 function githubLogin(){
     document.getElementById('authLoad').style.display='block';
     AUTH.signInWithPopup(new firebase.auth.GithubAuthProvider())
         .then(function(r){enter(profileFrom(r.user,'GitHub'));})
         .catch(function(e){err(friendly(e.code));});
 }
-
-/* ---------- GOOGLE (direct OAuth) ---------- */
 function googleLogin(){
-    if(GOOGLE_CLIENT_ID.indexOf('PASTE')===0){err('Paste your Google Client ID first.');return;}
-    var redirect=encodeURIComponent(location.origin+location.pathname);
+    if(GOOGLE_CLIENT_ID.indexOf('PASTE')===0){err('Paste Google Client ID first.');return;}
     location.href='https://accounts.google.com/o/oauth2/v2/auth?client_id='+GOOGLE_CLIENT_ID+
-        '&redirect_uri='+redirect+'&response_type=token&scope=openid%20profile%20email&state=clh_google';
+        '&redirect_uri='+encodeURIComponent(location.origin+location.pathname)+'&response_type=token&scope=openid%20profile%20email&state=clh_google';
 }
-
-/* ---------- DISCORD (direct OAuth) ---------- */
 function discordLogin(){
-    if(DISCORD_CLIENT_ID.indexOf('PASTE')===0){err('Paste your Discord Client ID first.');return;}
-    var redirect=encodeURIComponent(location.origin+location.pathname);
+    if(DISCORD_CLIENT_ID.indexOf('PASTE')===0){err('Paste Discord Client ID first.');return;}
     location.href='https://discord.com/oauth2/authorize?client_id='+DISCORD_CLIENT_ID+
-        '&response_type=token&redirect_uri='+redirect+'&scope=identify&state=clh_discord';
+        '&response_type=token&redirect_uri='+encodeURIComponent(location.origin+location.pathname)+'&scope=identify&state=clh_discord';
 }
 
-/* ---------- RETURN HANDLER (Google + Discord tokens) ---------- */
+/* Google + Discord return */
 (function(){
     var h=location.hash.replace('#','');
     if(h.indexOf('access_token=')===-1)return;
     var params={};
     h.split('&').forEach(function(kv){var p=kv.split('=');params[p[0]]=decodeURIComponent(p[1]);});
     var token=params['access_token'], state=params['state']||'';
-
     if(state==='clh_google'){
         fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+token}})
             .then(function(r){return r.json();})
             .then(function(u){enter({name:u.name||(u.email?u.email.split('@')[0]:'Player'),email:u.email||'',provider:'Google',avatar:u.picture,ts:Date.now()});})
-            .catch(function(){err('Google login failed. Try again.');});
+            .catch(function(){err('Google login failed.');});
     } else {
         fetch('https://discord.com/api/users/@me',{headers:{Authorization:'Bearer '+token}})
             .then(function(r){return r.json();})
@@ -175,19 +147,15 @@ function discordLogin(){
                 var av=u.avatar?('https://cdn.discordapp.com/avatars/'+u.id+'/'+u.avatar+'.png?size=96'):'https://cdn.discordapp.com/embed/avatars/0.png';
                 enter({name:u.global_name||u.username,email:'',provider:'Discord',avatar:av,ts:Date.now()});
             })
-            .catch(function(){err('Discord login failed. Try again.');});
+            .catch(function(){err('Discord login failed.');});
     }
 })();
 
-/* ---------- already logged in? go to dashboard ---------- */
-if (document.cookie.indexOf('clh_cookie=') > -1) location.replace(DASHBOARD_URL);
-AUTH.onAuthStateChanged(function(u){
-    if(u)enter(profileFrom(u,u.providerData&&u.providerData[0]?u.providerData[0].providerId:'Email'));
-});
-
-/* Enter key + debug log */
+/* AUTO-REDIRECT: cookie ONLY + loop-breaker (?out=1 means "just logged out") */
+if (document.cookie.indexOf('clh_cookie=') > -1 && location.search.indexOf('out=') === -1) {
+    location.replace(DASH);
+}
 document.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
-console.log('Google Client ID loaded:', GOOGLE_CLIENT_ID);
 </script>
 </body>
-    </html>
+              </html>
