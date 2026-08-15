@@ -11,47 +11,38 @@
 <style>
 .auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
 .auth-card{width:100%;max-width:440px;text-align:center}
-.pass-wrap{position:relative}
-.pass-wrap input{padding-right:50px}
+.pass-wrap{position:relative}.pass-wrap input{padding-right:50px}
 .pass-eye{position:absolute;right:6px;top:9px;background:transparent;border:none;box-shadow:none;color:var(--cyan);padding:8px;width:auto}
-.pass-eye:hover{transform:none;box-shadow:none;text-shadow:0 0 10px var(--cyan)}
 .auth-row{display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px;font-size:.9rem}
 .auth-row label{margin:0;display:flex;align-items:center;gap:6px}
 .divider{display:flex;align-items:center;gap:10px;color:var(--muted);margin:16px 0;font-size:.72rem;letter-spacing:2px;text-transform:uppercase}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .social-col{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
-.social-col button{flex:1 1 110px;font-size:.72rem;background:transparent;border:1px solid var(--border);color:var(--text);box-shadow:none;backdrop-filter:blur(6px)}
-.social-col button:hover{background:rgba(0,240,255,.08);border-color:var(--cyan);box-shadow:0 0 18px rgba(0,240,255,.3)}
-.pv.google{border-color:rgba(251,188,5,.55);color:#fbbc05}
-.pv.github{border-color:rgba(255,255,255,.4);color:#fff}
-.pv.discord{border-color:rgba(88,101,242,.55);color:#8a94f5}
+.social-col button{flex:1 1 110px;font-size:.72rem;background:transparent;border:1px solid var(--border);color:var(--text);box-shadow:none}
+.pv.google{border-color:rgba(251,188,5,.55);color:#fbbc05}.pv.github{border-color:rgba(255,255,255,.4);color:#fff}.pv.discord{border-color:rgba(88,101,242,.55);color:#8a94f5}
 .auth-switch{margin-top:14px;font-size:.9rem;color:var(--muted)}
 .auth-note{font-size:.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:16px}
 .auth-note .dot{color:var(--green)}
 </style>
 </head>
 <body>
-<div class="auth-wrap">
-<div class="glass auth-card">
+<div class="auth-wrap"><div class="glass auth-card">
 <h2>SIGN IN</h2>
 <p>Sign in to your CyrusLinksHub account</p>
 <div class="loading-msg" id="authLoad">AUTHENTICATING...</div>
 <div class="error-msg" id="authError"></div>
 <div class="success-msg" id="authOk"></div>
-
 <label>Email Address</label>
-<input type="email" id="email" placeholder="Enter your email" autocomplete="email">
+<input type="email" id="email" placeholder="Enter your email">
 <label>Password</label>
 <div class="pass-wrap">
-<input type="password" id="pass" placeholder="Enter your password" autocomplete="current-password">
-<button class="pass-eye" type="button" onclick="togglePass()"><i class="fa-solid fa-eye" id="eye1"></i></button>
+<input type="password" id="pass" placeholder="Enter your password">
+<button class="pass-eye" type="button" onclick="togglePass()"><i class="fa-solid fa-eye" id="eye1"></i>◉</button>
 </div>
-
 <div class="auth-row">
 <label><input type="checkbox" checked> Remember me</label>
 <a href="forgot-password.html">Forgot password?</a>
 </div>
-
 <button style="width:100%" onclick="doLogin()"><i class="fa-solid fa-bolt"></i> SIGN IN</button>
 <div class="divider">Or Continue With</div>
 <div class="social-col">
@@ -59,103 +50,62 @@
 <button class="pv github" onclick="githubLogin()"><i class="fa-brands fa-github"></i> GITHUB</button>
 <button class="pv discord" onclick="discordLogin()"><i class="fa-brands fa-discord"></i> DISCORD</button>
 </div>
-
 <p class="auth-switch">Don't have an account? <a href="register.html">Create account</a></p>
 <p class="auth-note"><span class="dot">●</span> SECURE AUTHENTICATION</p>
-</div>
-</div>
-
+</div></div>
 <script>
-firebase.initializeApp({
-    apiKey: "AIzaSyA2n3WLi1_savBMMWWmMv2Ge19VSvQkUjI",
-    authDomain: "cyruslinkshub-2e195.firebaseapp.com",
-    projectId: "cyruslinkshub-2e195",
-    storageBucket: "cyruslinkshub-2e195.firebasestorage.app",
-    messagingSenderId: "1015015184649",
-    appId: "1:1015015184649:web:922ee0a6bcaf5d86ee5bd8"
-});
-var AUTH = firebase.auth();
-var GOOGLE_CLIENT_ID = "766581835119-1f25q81kop3fn41ujk7dv0peb8jtlrpl.apps.googleusercontent.com";
-var DISCORD_CLIENT_ID = "153684206786";
-var DASH = 'https://dash.cyruslinkshub.com';
-
+firebase.initializeApp({apiKey:"AIzaSyA2n3WLi1_savBMMWWmMv2Ge19VSvQkUjI",authDomain:"cyruslinkshub-2e195.firebaseapp.com",projectId:"cyruslinkshub-2e195",storageBucket:"cyruslinkshub-2e195.firebasestorage.app",messagingSenderId:"1015015184649",appId:"1:1015015184649:web:922ee0a6bcaf5d86ee5bd8"});
+var AUTH=firebase.auth();
+var GOOGLE_CLIENT_ID="766581835119-1f25q81kop3fn41ujk7dv0peb8jtlrpl.apps.googleusercontent.com";
+var DISCORD_CLIENT_ID="PASTE_DISCORD_CLIENT_ID";
+var DASH='https://dash.cyruslinkshub.com';
 function err(m){var e=document.getElementById('authError');e.textContent=m;e.style.display='block';document.getElementById('authOk').style.display='none';document.getElementById('authLoad').style.display='none';}
 function ok(m){var o=document.getElementById('authOk');o.textContent=m;o.style.display='block';document.getElementById('authError').style.display='none';}
-function setCookie(p){
-    var v=encodeURIComponent(JSON.stringify(p));
-    document.cookie='clh_cookie='+v+';path=/;domain=.cyruslinkshub.com;max-age=31536000';
-    document.cookie='clh_cookie='+v+';path=/;max-age=31536000';
+function saveAll(p){
+  try{localStorage.setItem('clh_profile',JSON.stringify(p))}catch(e){}
+  var v=encodeURIComponent(JSON.stringify(p));
+  document.cookie='clh_cookie='+v+';path=/;domain=.cyruslinkshub.com;max-age=31536000';
+  document.cookie='clh_cookie='+v+';path=/;max-age=31536000';
 }
-/* redirect carries profile in URL = dash ALWAYS receives it */
+/* LOGIN SUCCESS → save + hand profile to dash via URL (works on ANY domain) */
 function enter(p){
-    setCookie(p);
-    ok('Access granted! Routing to dashboard...');
-    setTimeout(function(){ location.href = DASH + '/?clh=' + encodeURIComponent(JSON.stringify(p)); }, 900);
+  saveAll(p);
+  ok('Access granted! Routing to dashboard...');
+  setTimeout(function(){location.href=DASH+'/?clh='+encodeURIComponent(JSON.stringify(p));},900);
 }
-function profileFrom(u,prov){
-    var n=u.displayName||(u.email?u.email.split('@')[0]:'Player');
-    return {name:n,email:u.email||'',provider:prov,avatar:u.photoURL||('https://api.dicebear.com/9.x/initials/svg?seed='+encodeURIComponent(n)),ts:Date.now()};
-}
-function friendly(c){
-    var m={'auth/invalid-email':'Invalid email.','auth/user-not-found':'No account found.','auth/wrong-password':'Wrong password.','auth/email-already-in-use':'Email already registered.','auth/weak-password':'Password too weak.','auth/too-many-requests':'Too many attempts.','auth/popup-closed-by-user':'Popup closed.','auth/popup-blocked':'Popup blocked.','auth/unauthorized-domain':'Domain not authorized.','auth/operation-not-allowed':'Provider disabled.','auth/network-request-failed':'Network error.'};
-    return m[c]||('Auth failed ('+c+').');
-}
+function profileFrom(u,prov){var n=u.displayName||(u.email?u.email.split('@')[0]:'Player');return{name:n,email:u.email||'',provider:prov,avatar:u.photoURL||('https://api.dicebear.com/9.x/initials/svg?seed='+encodeURIComponent(n)),ts:Date.now()};}
+function friendly(c){var m={'auth/invalid-email':'Invalid email.','auth/user-not-found':'No account found.','auth/wrong-password':'Wrong password.','auth/email-already-in-use':'Email already registered.','auth/weak-password':'Password too weak.','auth/too-many-requests':'Too many attempts.','auth/popup-closed-by-user':'Popup closed.','auth/popup-blocked':'Popup blocked.','auth/unauthorized-domain':'Domain not authorized.','auth/operation-not-allowed':'Provider disabled.','auth/network-request-failed':'Network error.'};return m[c]||('Auth failed ('+c+').');}
 function togglePass(){var p=document.getElementById('pass');var s=p.type==='password';p.type=s?'text':'password';document.getElementById('eye1').className=s?'fa-solid fa-eye-slash':'fa-solid fa-eye';}
-
 function doLogin(){
-    document.getElementById('authLoad').style.display='block';
-    var em=document.getElementById('email').value.trim().toLowerCase();
-    var pw=document.getElementById('pass').value;
-    if(!em||!pw){err('Enter email and password.');return;}
-    AUTH.signInWithEmailAndPassword(em,pw)
-        .then(function(r){enter(profileFrom(r.user,'Email'));})
-        .catch(function(e){err(friendly(e.code));});
+  document.getElementById('authLoad').style.display='block';
+  var em=document.getElementById('email').value.trim().toLowerCase(),pw=document.getElementById('pass').value;
+  if(!em||!pw){err('Enter email and password.');return;}
+  AUTH.signInWithEmailAndPassword(em,pw).then(function(r){enter(profileFrom(r.user,'Email'));}).catch(function(e){err(friendly(e.code));});
 }
 function githubLogin(){
-    document.getElementById('authLoad').style.display='block';
-    AUTH.signInWithPopup(new firebase.auth.GithubAuthProvider())
-        .then(function(r){enter(profileFrom(r.user,'GitHub'));})
-        .catch(function(e){err(friendly(e.code));});
+  document.getElementById('authLoad').style.display='block';
+  AUTH.signInWithPopup(new firebase.auth.GithubAuthProvider()).then(function(r){enter(profileFrom(r.user,'GitHub'));}).catch(function(e){err(friendly(e.code));});
 }
 function googleLogin(){
-    if(GOOGLE_CLIENT_ID.indexOf('PASTE')===0){err('Paste Google Client ID first.');return;}
-    location.href='https://accounts.google.com/o/oauth2/v2/auth?client_id='+GOOGLE_CLIENT_ID+
-        '&redirect_uri='+encodeURIComponent(location.origin+location.pathname)+'&response_type=token&scope=openid%20profile%20email&state=clh_google';
+  if(GOOGLE_CLIENT_ID.indexOf('PASTE')===0){err('Paste Google Client ID first.');return;}
+  location.href='https://accounts.google.com/o/oauth2/v2/auth?client_id='+GOOGLE_CLIENT_ID+'&redirect_uri='+encodeURIComponent(location.origin+location.pathname)+'&response_type=token&scope=openid%20profile%20email&state=clh_google';
 }
 function discordLogin(){
-    if(DISCORD_CLIENT_ID.indexOf('PASTE')===0){err('Paste Discord Client ID first.');return;}
-    location.href='https://discord.com/oauth2/authorize?client_id='+DISCORD_CLIENT_ID+
-        '&response_type=token&redirect_uri='+encodeURIComponent(location.origin+location.pathname)+'&scope=identify&state=clh_discord';
+  if(DISCORD_CLIENT_ID.indexOf('PASTE')===0){err('Paste Discord Client ID first.');return;}
+  location.href='https://discord.com/oauth2/authorize?client_id='+DISCORD_CLIENT_ID+'&response_type=token&redirect_uri='+encodeURIComponent(location.origin+location.pathname)+'&scope=identify&state=clh_discord';
 }
-
-/* Google + Discord return */
 (function(){
-    var h=location.hash.replace('#','');
-    if(h.indexOf('access_token=')===-1)return;
-    var params={};
-    h.split('&').forEach(function(kv){var p=kv.split('=');params[p[0]]=decodeURIComponent(p[1]);});
-    var token=params['access_token'], state=params['state']||'';
-    if(state==='clh_google'){
-        fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+token}})
-            .then(function(r){return r.json();})
-            .then(function(u){enter({name:u.name||(u.email?u.email.split('@')[0]:'Player'),email:u.email||'',provider:'Google',avatar:u.picture,ts:Date.now()});})
-            .catch(function(){err('Google login failed.');});
-    } else {
-        fetch('https://discord.com/api/users/@me',{headers:{Authorization:'Bearer '+token}})
-            .then(function(r){return r.json();})
-            .then(function(u){
-                var av=u.avatar?('https://cdn.discordapp.com/avatars/'+u.id+'/'+u.avatar+'.png?size=96'):'https://cdn.discordapp.com/embed/avatars/0.png';
-                enter({name:u.global_name||u.username,email:'',provider:'Discord',avatar:av,ts:Date.now()});
-            })
-            .catch(function(){err('Discord login failed.');});
-    }
+  var h=location.hash.replace('#','');
+  if(h.indexOf('access_token=')===-1)return;
+  var q={};h.split('&').forEach(function(kv){var p=kv.split('=');q[p[0]]=decodeURIComponent(p[1]);});
+  var t=q['access_token'],s=q['state']||'';
+  if(s==='clh_google'){
+    fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+t}}).then(function(r){return r.json();}).then(function(u){enter({name:u.name||(u.email?u.email.split('@')[0]:'Player'),email:u.email||'',provider:'Google',avatar:u.picture,ts:Date.now()});}).catch(function(){err('Google login failed.');});
+  }else{
+    fetch('https://discord.com/api/users/@me',{headers:{Authorization:'Bearer '+t}}).then(function(r){return r.json();}).then(function(u){var av=u.avatar?('https://cdn.discordapp.com/avatars/'+u.id+'/'+u.avatar+'.png?size=96'):'https://cdn.discordapp.com/embed/avatars/0.png';enter({name:u.global_name||u.username,email:'',provider:'Discord',avatar:av,ts:Date.now()});}).catch(function(){err('Discord login failed.');});
+  }
 })();
-
-/* AUTO-REDIRECT: cookie ONLY + loop-breaker (?out=1 means "just logged out") */
-if (document.cookie.indexOf('clh_cookie=') > -1 && location.search.indexOf('out=') === -1) {
-    location.replace(DASH);
-}
 document.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 </script>
 </body>
-              </html>
+</html>
