@@ -273,18 +273,15 @@ function bindAll() {
 /* ================= SESSION SYNC + AUTO REDIRECT ================= */
 if (FB) {
     FB.auth().onAuthStateChanged(function (u) {
-        if (u) {
+        /* COOKIE = only source of truth (fixes logout + redirect loops) */
+        var hasCookie = document.cookie.indexOf('clh_cookie=') > -1;
+        if (u && hasCookie) {
             saveProfile(profileFrom(u, u.providerData && u.providerData[0] ? u.providerData[0].providerId : 'Email'));
             if (authPage) location.replace(DASHBOARD_URL);
         }
+        /* Firebase user but NO cookie = logged out → do NOTHING */
     });
 }
-try {
-    if (JSON.parse(localStorage.getItem(P_KEY)) && document.querySelector('input[type="password"]')) {
-        /* logged in on an auth page → dashboard */
-        setTimeout(function () { if (authPage) location.replace(DASHBOARD_URL); }, 300);
-    }
-} catch (e) {}
 
 /* ================= ENTER KEY ================= */
 document.addEventListener('keydown', function (e) {
