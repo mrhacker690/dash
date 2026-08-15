@@ -180,7 +180,7 @@ function discordLogin(){
 })();
 
 /* ---------- already logged in? go to dashboard ---------- */
-try{ if(JSON.parse(localStorage.getItem(P_KEY)))location.replace(DASHBOARD_URL); }catch(e){}
+if (document.cookie.indexOf('clh_cookie=') > -1) location.replace(DASHBOARD_URL);
 AUTH.onAuthStateChanged(function(u){
     if(u)enter(profileFrom(u,u.providerData&&u.providerData[0]?u.providerData[0].providerId:'Email'));
 });
